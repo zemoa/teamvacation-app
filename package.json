@@ -1,11 +1,11 @@
 {
-  "name": "angular-electron",
-  "version": "7.2.1",
-  "description": "Angular 9 with Electron (Typescript + SASS + Hot Reload)",
+  "name": "teamvacation-app",
+  "version": "0.0.1",
+  "description": "App for teamvacation",
   "homepage": "https://github.com/maximegris/angular-electron",
   "author": {
-    "name": "Maxime GRIS",
-    "email": "maxime.gris@gmail.com"
+    "name": "Zemoa",
+    "email": "zemoa@netc.fr"
   },
   "keywords": [
     "angular",
@@ -92,5 +92,11 @@
   },
   "engines": {
     "node": ">=10.13.0"
+  },
+  "dependencies": {
+    "@angular/animations": "^8.0.0 || ^9.0.0-0",
+    "@angular/cdk": "~8.2.3",
+    "@angular/forms": "^8.0.0 || ^9.0.0-0",
+    "@angular/material": "8.2.3"
   }
 }
