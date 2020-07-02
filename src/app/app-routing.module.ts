@@ -5,6 +5,7 @@ import { PageNotFoundComponent } from './shared/components';
 import { HomeRoutingModule } from './home/home-routing.module';
 import { DetailRoutingModule } from './detail/detail-routing.module';
 import { LoginRoutingModule } from './login/login-routing.module';
+import { CalendarModule } from './calendar/calendar.module';
 
 const routes: Routes = [
   {
@@ -23,7 +24,8 @@ const routes: Routes = [
     RouterModule.forRoot(routes),
     HomeRoutingModule,
     DetailRoutingModule,
-    LoginRoutingModule
+    LoginRoutingModule,
+    CalendarModule
   ],
   exports: [RouterModule]
 })

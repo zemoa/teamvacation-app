@@ -23,6 +23,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatIconModule } from "@angular/material/icon";
 import { LoginModule } from './login/login.module';
+import { CalendarModule } from './calendar/calendar.module';
 
 
 // AoT requires an exported function for factories
@@ -51,7 +52,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     BrowserAnimationsModule,
     MatToolbarModule,
     MatIconModule,
-    LoginModule
+    LoginModule,
+    CalendarModule
   ],
   providers: [],
   bootstrap: [AppComponent]
