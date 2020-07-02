@@ -20,6 +20,11 @@ import { DetailModule } from './detail/detail.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
+import { MatToolbarModule } from "@angular/material/toolbar";
+import { MatIconModule } from "@angular/material/icon";
+import { LoginModule } from './login/login.module';
+
+
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   return new TranslateHttpLoader(http, './assets/i18n/', '.json');
@@ -29,9 +34,9 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   declarations: [AppComponent],
   imports: [
     BrowserModule,
-    FormsModule,
+    FormsModule, 
     HttpClientModule,
-    CoreModule,
+    CoreModule, 
     SharedModule,
     HomeModule,
     DetailModule,
@@ -43,9 +48,12 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
         deps: [HttpClient]
       }
     }),
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatToolbarModule,
+    MatIconModule,
+    LoginModule
   ],
   providers: [],
   bootstrap: [AppComponent]
-})
+}) 
 export class AppModule {}
