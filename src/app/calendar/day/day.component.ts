@@ -1,6 +1,7 @@
 import { Component, OnInit, ChangeDetectionStrategy,  Input } from '@angular/core';
-import { VacationType } from '../../model/dto';
 import { Day } from '../../model/day';
+import { AddvacationdialogComponent } from './addvacationdialog/addvacationdialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-day',
@@ -14,9 +15,28 @@ export class DayComponent implements OnInit {
   @Input() firstOfRow: boolean;
   @Input() firstRow: boolean;
 
-  constructor() { }
+  constructor(public dialog: MatDialog) { }
 
   ngOnInit(): void {
   }
 
+  clickOnDay(event: any) {
+    console.log("day");
+    this.dialog.open(AddvacationdialogComponent, {
+      position: {
+        left: event.x + "px",
+        top: event.y + "px",
+      }
+    });
+  }
+
+  clickOnAm(event: any) {
+    console.log("am");
+    event.stopPropagation();
+  }
+  
+  clickOnPm(event: any) {
+    event.stopPropagation();
+    console.log("pm");
+  }
 }

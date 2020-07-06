@@ -1,9 +1,9 @@
-<div class="day" [class.firstRow]="firstRow" [class.first]="firstOfRow">
+<div class="day" [class.firstRow]="firstRow" [class.first]="firstOfRow" (click)="clickOnDay($event)">
     <div *ngIf="!day.am" class="header">{{day.nb}}</div>
-    <div *ngIf="day.am" class="am">
+    <div *ngIf="day.am" class="am" (click)="clickOnAm($event)">
         {{day.nb}}
     </div>
-    <div *ngIf="day.pm" class="pm">
+    <div *ngIf="day.pm" class="pm" (click)="clickOnPm($event)">
 
     </div>
 </div>

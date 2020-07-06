@@ -26,6 +26,7 @@
             "type": "chrome",
             "request": "attach",
             "port": 9222,
+            "runimeExecutable":"C:/Program Files (x86)/BraveSoftware/Brave-Browser/Application/brave.exe",
             "webRoot": "${workspaceFolder}/",
             "sourceMaps": true,
             "timeout": 30000,
