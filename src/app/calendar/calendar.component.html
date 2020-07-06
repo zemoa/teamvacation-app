@@ -1,6 +1,6 @@
 <app-navbar></app-navbar>
-<mat-grid-list cols="7">
-    <mat-grid-tile *ngFor="let day of days">
-        {{day}}
+<mat-grid-list cols="7" [gutterSize]="0">
+    <mat-grid-tile *ngFor="let day of days; index as index">
+        <app-day [day]="day" [firstRow]="index < 7? true:false" [firstOfRow]="index%7 == 0"></app-day>
     </mat-grid-tile>
 </mat-grid-list>

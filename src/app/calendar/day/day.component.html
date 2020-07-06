@@ -1,1 +1,9 @@
-<p>day works!</p>
+<div class="day" [class.firstRow]="firstRow" [class.first]="firstOfRow">
+    <div *ngIf="!day.am" class="header">{{day.nb}}</div>
+    <div *ngIf="day.am" class="am">
+        {{day.nb}}
+    </div>
+    <div *ngIf="day.pm" class="pm">
+
+    </div>
+</div>
