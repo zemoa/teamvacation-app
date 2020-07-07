@@ -1,5 +1,10 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
+export interface AddvacationdialogData {
+  am?: boolean;
+  pm?: boolean;
+}
 @Component({
   selector: 'app-addvacationdialog',
   templateUrl: './addvacationdialog.component.html',
@@ -7,8 +12,7 @@ import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AddvacationdialogComponent implements OnInit {
-
-  constructor() { }
+  constructor(@Inject(MAT_DIALOG_DATA) public data: AddvacationdialogData) { }
 
   ngOnInit(): void {
   }

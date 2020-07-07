@@ -23,6 +23,10 @@ export class DayComponent implements OnInit {
   clickOnDay(event: any) {
     console.log("day");
     this.dialog.open(AddvacationdialogComponent, {
+      data: {
+        pm: !this.day.pm,
+        am: !this.day.am
+      },
       position: {
         left: event.x + "px",
         top: event.y + "px",
@@ -36,6 +40,11 @@ export class DayComponent implements OnInit {
   }
   
   clickOnPm(event: any) {
+    event.stopPropagation();
+    console.log("pm");
+  }
+
+  clickOnVacationDay(event: any) {
     event.stopPropagation();
     console.log("pm");
   }

@@ -1,6 +1,25 @@
-<app-navbar></app-navbar>
-<mat-grid-list cols="7" [gutterSize]="0">
-    <mat-grid-tile *ngFor="let day of days; index as index">
-        <app-day [day]="day" [firstRow]="index < 7? true:false" [firstOfRow]="index%7 == 0"></app-day>
-    </mat-grid-tile>
-</mat-grid-list>
+<app-navbar>
+    <button class="interactivebtn" mat-mini-fab color="primary" aria-label="Example icon button with a vertical three dot icon">
+        <mat-icon [inline]="true">navigate_before</mat-icon>
+    </button>
+    <span class="spacer"></span>
+    Janvier
+    <span class="spacer"></span>
+    <button class="interactivebtn" mat-mini-fab color="primary" aria-label="Example icon button with a vertical three dot icon">
+        <mat-icon inline="true">navigate_next</mat-icon>
+    </button>
+</app-navbar>
+<section>
+    <mat-button-toggle-group>
+        <mat-button-toggle value="standard">{{ 'vacation.standard' | translate }}</mat-button-toggle>
+        <mat-button-toggle value="rtt">{{ 'vacation.rtt' | translate }}</mat-button-toggle>
+    </mat-button-toggle-group>
+</section>
+<mat-divider></mat-divider>
+<section>
+    <mat-grid-list cols="7" [gutterSize]="0">
+        <mat-grid-tile *ngFor="let day of days; index as index">
+            <app-day [day]="day" [firstRow]="index < 7? true:false" [firstOfRow]="index%7 == 0"></app-day>
+        </mat-grid-tile>
+    </mat-grid-list>
+</section>

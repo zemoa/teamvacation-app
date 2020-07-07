@@ -10,6 +10,10 @@ import { AddvacationdialogComponent } from './day/addvacationdialog/addvacationd
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from "@angular/material/button";
 import { MatCheckboxModule } from "@angular/material/checkbox";
+import { MatDividerModule } from "@angular/material/divider";
+import { MatButtonToggleModule } from "@angular/material/button-toggle";
+import { MatIconModule } from "@angular/material/icon";
+import { CoreModule } from '../core/core.module';
 
 
 @NgModule({
@@ -21,7 +25,11 @@ import { MatCheckboxModule } from "@angular/material/checkbox";
     MatGridListModule,
     MatDialogModule,
     MatButtonModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatDividerModule,
+    MatButtonToggleModule,
+    MatIconModule,
+    CoreModule
   ]
 })
 export class CalendarModule { }

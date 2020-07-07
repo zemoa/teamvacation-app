@@ -20,10 +20,18 @@
   padding: 0 14px;
 }
 
-.example-spacer {
+.spacer {
   flex: 1 1 auto;
 }
 
 body {
 font-family: Roboto;
+}
+
+.interactivebtn {
+  & > span.mat-button-wrapper {
+    font-size: 40px;
+    display: inline-flex;
+  }
+  
 }

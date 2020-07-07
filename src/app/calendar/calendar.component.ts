@@ -5,9 +5,10 @@ import { VacationType } from '../model/dto';
 @Component({
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.scss']
-})
+}) 
 export class CalendarComponent implements OnInit {
   days: Day[] = [];
+  
   constructor() { }
 
   ngOnInit(): void {
@@ -18,6 +19,10 @@ export class CalendarComponent implements OnInit {
       dayObj.nb = day;
       if(day == 1) {
         dayObj.am = VacationType.RTT;
+        dayObj.pm = VacationType.Standard;
+      } else if(day == 2) {
+        dayObj.am = VacationType.RTT;
+      } else if(day == 3) {
         dayObj.pm = VacationType.Standard;
       }
       this.days.push(dayObj);

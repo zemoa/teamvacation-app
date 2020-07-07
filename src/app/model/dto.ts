@@ -3,3 +3,15 @@ export enum VacationType{
     Standard,
     RTT,
 }
+
+export enum VacationDay{
+    ALL,
+    MORNING,
+    AFTERNOON,
+}
+
+export class VacationDto {
+    date: Date;
+    vacationType?: VacationType;
+    vacationDay: VacationDay;
+}

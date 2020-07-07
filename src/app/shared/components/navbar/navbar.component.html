@@ -1,7 +1,9 @@
 <mat-toolbar color="primary">
     <mat-toolbar-row>
       <span>Second Line</span>
-      <span class="example-spacer"></span>
+      <span class="spacer"></span>
+      <ng-content></ng-content>
+      <span class="spacer"></span>
       <mat-icon class="example-icon" aria-hidden="false" aria-label="Example user verified icon" routerLink="/calendar">verified_user</mat-icon>
     </mat-toolbar-row>
 </mat-toolbar>
