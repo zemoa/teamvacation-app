@@ -1,7 +1,13 @@
 import { VacationType } from "./dto";
 
 export class Day {
-    nb?: number;
-    am?: VacationType;
-    pm?: VacationType;
+    date: Date;
+    am: ModifiedType;
+    pm: ModifiedType;
+
+}
+
+export class ModifiedType {
+  type?: VacationType;
+  modified = false;
 }

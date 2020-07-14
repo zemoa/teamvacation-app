@@ -4,7 +4,7 @@
       {
         "label": "Build.All",
         "type": "shell",
-        "command": "npm start",
+        "command": "npm run ng:serve:web",
         "isBackground": true,
         "group": {
           "kind": "build",

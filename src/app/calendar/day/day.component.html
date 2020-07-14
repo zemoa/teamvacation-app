@@ -1,12 +1,12 @@
 <div class="day" [class.firstRow]="firstRow" [class.first]="firstOfRow" (click)="clickOnDay($event)">
-    <div *ngIf="!day.am" class="header">{{day.nb}}</div>
+    <div *ngIf="!day.am" class="header">{{day.date.getDate()}}</div>
     <div *ngIf="day.am && !day.pm" class="am vacation" (click)="clickOnAm($event)">
-        {{day.nb}}
+        {{day.date.getDate()}}
     </div>
     <div *ngIf="day.pm && !day.am" class="pm vacation" (click)="clickOnPm($event)">
 
     </div>
     <div *ngIf="day.pm && day.am" class="vacation" (click)="clickOnVacationDay($event)">
-        {{day.nb}}
+        {{day.date.getDate()}}
     </div>
 </div>

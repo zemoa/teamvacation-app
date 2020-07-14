@@ -7,6 +7,8 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
+import { ServiceModule } from "./core/services/ws/ws.module";
+import * as calendarStore from "./model/calendar.reducer";
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -28,6 +30,7 @@ import { MatDialogModule } from "@angular/material/dialog";
 
 import { LoginModule } from './login/login.module';
 import { CalendarModule } from './calendar/calendar.module';
+import { StoreModule } from '@ngrx/store';
 
 
 // AoT requires an exported function for factories
@@ -39,9 +42,9 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
   declarations: [AppComponent],
   imports: [
     BrowserModule,
-    FormsModule, 
+    FormsModule,
     HttpClientModule,
-    CoreModule, 
+    CoreModule,
     SharedModule,
     HomeModule,
     DetailModule,
@@ -53,6 +56,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
         deps: [HttpClient]
       }
     }),
+    ServiceModule,
     BrowserAnimationsModule,
     MatToolbarModule,
     MatIconModule,
@@ -60,6 +64,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     MatDialogModule,
     LoginModule,
     CalendarModule,
+    StoreModule.forRoot({calendarState: calendarStore.reducer}, {}),
   ],
   providers: [],
   bootstrap: [AppComponent]
