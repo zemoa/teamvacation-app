@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Day } from '../model/day';
 import { VacationType } from '../model/dto';
-import {combineLatest, concat, forkJoin, merge, Observable, of} from "rxjs";
+import {BehaviorSubject, combineLatest, concat, forkJoin, merge, Observable, of, Subject} from "rxjs";
 import {select, Store} from "@ngrx/store";
 import {AppState, CalendarState, getVacationForMonth} from "../model/calendar.store";
 import {concatMap, map, mergeMap} from "rxjs/operators";
@@ -19,25 +19,25 @@ export class CalendarDay {
 })
 export class CalendarComponent implements OnInit {
   days$: Observable<CalendarDay[]>;
-  currentDate: Date;
+  private selectedMonthSubject : BehaviorSubject<{month: number, year: number}>;
+
   vacationTypeValues = VacationType;
 
   constructor(private store: Store<AppState>) { }
 
   ngOnInit(): void {
-    this.currentDate = new Date();
-    const currentMonth = this.currentDate.getMonth();
-    const currentYear = this.currentDate.getFullYear();
-    const nbDay = new Date(currentYear, currentMonth, 0).getDate();
+    const currentDate = new Date();
+    this.selectedMonthSubject = new BehaviorSubject<{month: number, year: number}>({month: currentDate.getMonth(), year: currentDate.getFullYear()});
 
-
-    this.days$ = this.store.pipe(
-        select(getVacationForMonth, {month: currentMonth}),
+    this.selectedMonthSubject.asObservable().subscribe(monthObj => {
+      this.days$ = this.store.pipe(
+        select(getVacationForMonth, {month: monthObj.month, year: monthObj.year}),
         map(vacations => {
           let tmpDays : CalendarDay[] = [];
+          const nbDay = new Date(monthObj.month, monthObj.year, 0).getDate();
           for(let day = 1; day <= nbDay; day++) {
             let dayObj = new CalendarDay();
-            dayObj.date = new Date(currentYear, currentMonth, day);
+            dayObj.date = new Date(monthObj.year, monthObj.month, day);
             const dayOfWeek = dayObj.date.getDay();
             dayObj.isWorked = dayOfWeek != 6 && dayOfWeek != 0;
             tmpDays.push(dayObj);
@@ -50,7 +50,40 @@ export class CalendarComponent implements OnInit {
           });
           return tmpDays;
         }),
-      map(days => _.sortBy(days, ['date']))
+        map(days => _.sortBy(days, ['date']))
       );
+    });
+
+
+  }
+
+  get dateTitle(): Observable<Date> {
+    return this.selectedMonthSubject.asObservable().pipe(map(monthObj => new Date(monthObj.year, monthObj.month)));
+  }
+
+  private refresh() {
+
+  }
+
+  onPreviousMonthClicked() {
+    let monthObj = this.selectedMonthSubject.getValue();
+    if(monthObj.month <= 1) {
+      monthObj.month = 12;
+      monthObj.year--;
+    } else {
+      monthObj.month--;
+    }
+    this.selectedMonthSubject.next(monthObj);
+  }
+
+  onNextMonthClicked() {
+    let monthObj = this.selectedMonthSubject.getValue();
+    if(monthObj.month >= 12) {
+      monthObj.month = 1;
+      monthObj.year++;
+    } else {
+      monthObj.month++;
+    }
+    this.selectedMonthSubject.next(monthObj);
   }
 }

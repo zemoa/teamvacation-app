@@ -11,6 +11,6 @@ export const getCalendarState = (state: AppState) => state.calendarState;
 export const getVacationForMonth = createSelector(
   getCalendarState,
   (state: CalendarState, props) => {
-      return state.vacations.filter(value => value.date.getMonth() === props.month);
+      return state.vacations.filter(value => value.date.getMonth() === props.month && value.date.getFullYear() === props.year);
   }
 )
