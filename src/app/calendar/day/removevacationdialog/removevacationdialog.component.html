@@ -1,0 +1,16 @@
+<h1 mat-dialog-title>{{'calendar.removevacation.title' | translate}}</h1>
+<mat-dialog-content>
+  <p>
+    Etes-vous sûr de vouloir supprimer
+    <ng-container [ngSwitch]="data.vacationDay">
+      <ng-container *ngSwitchCase="vacationDayValues.ALL">{{ 'vacation.all' | translate }}</ng-container>
+      <ng-container *ngSwitchCase="vacationDayValues.AFTERNOON">{{ 'vacation.afternoon' | translate }}</ng-container>
+      <ng-container *ngSwitchCase="vacationDayValues.MORNING">{{ 'vacation.morning' | translate }}</ng-container>
+      <ng-container *ngSwitchDefault></ng-container>
+    </ng-container> ?
+  </p>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>{{'no' | translate}}</button>
+  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>{{'yes' | translate}}</button>
+</mat-dialog-actions>

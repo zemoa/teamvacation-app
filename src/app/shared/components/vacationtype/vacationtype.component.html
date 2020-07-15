@@ -1,0 +1,5 @@
+<ng-container [ngSwitch]="key">
+  <ng-container *ngSwitchCase="vacationTypeValues.Standard">{{ 'vacation.standard' | translate }}</ng-container>
+  <ng-container *ngSwitchCase="vacationTypeValues.RTT">{{ 'vacation.rtt' | translate }}</ng-container>
+  <ng-container *ngSwitchDefault></ng-container>
+</ng-container>

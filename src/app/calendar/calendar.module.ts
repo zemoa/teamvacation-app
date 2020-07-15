@@ -14,10 +14,11 @@ import { MatDividerModule } from "@angular/material/divider";
 import { MatButtonToggleModule } from "@angular/material/button-toggle";
 import { MatIconModule } from "@angular/material/icon";
 import { CoreModule } from '../core/core.module';
+import { RemovevacationdialogComponent } from './day/removevacationdialog/removevacationdialog.component';
 
 
 @NgModule({
-  declarations: [CalendarComponent, DayComponent, AddvacationdialogComponent],
+  declarations: [CalendarComponent, DayComponent, AddvacationdialogComponent, RemovevacationdialogComponent],
   imports: [
     CommonModule,
     CalendarRoutingModule,

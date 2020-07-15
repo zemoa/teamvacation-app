@@ -28,16 +28,17 @@ export class CalendarComponent implements OnInit {
     const currentMonth = this.currentDate.getMonth();
     const currentYear = this.currentDate.getFullYear();
     const nbDay = new Date(currentYear, currentMonth, 0).getDate();
-    let tmpDays : CalendarDay[] = [];
-    for(let day = 1; day <= nbDay; day++) {
-      var dayObj = new CalendarDay();
-      dayObj.date = new Date(currentYear, currentMonth, day);
-      tmpDays.push(dayObj);
-    }
+
 
     this.days$ = this.store.pipe(
         select(getVacationForMonth, {month: currentMonth}),
         map(vacations => {
+          let tmpDays : CalendarDay[] = [];
+          for(let day = 1; day <= nbDay; day++) {
+            let dayObj = new CalendarDay();
+            dayObj.date = new Date(currentYear, currentMonth, day);
+            tmpDays.push(dayObj);
+          }
           vacations.forEach(vacation => {
             let day = {..._.first(_.remove(tmpDays, day => day.date.getDate() === vacation.date.getDate()))};
             day.pm = vacation.pm.type;

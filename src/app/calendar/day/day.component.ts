@@ -5,7 +5,8 @@ import {MatDialog} from '@angular/material/dialog';
 import {VacationDay, VacationType} from "../../model/dto";
 import {Store} from "@ngrx/store";
 import {AppState} from "../../model/calendar.store";
-import {addVacation} from "../../model/actions/calendar.actions";
+import {addVacation, removeVacation} from "../../model/actions/calendar.actions";
+import {RemovevacationdialogComponent} from "./removevacationdialog/removevacationdialog.component";
 
 @Component({
   selector: 'app-day',
@@ -59,17 +60,34 @@ export class DayComponent implements OnInit {
   }
 
   clickOnAm(event: any) {
-    console.log("am");
     event.stopPropagation();
+    this.openRemoveDialog(event, VacationDay.MORNING);
   }
 
   clickOnPm(event: any) {
     event.stopPropagation();
-    console.log("pm");
+    this.openRemoveDialog(event, VacationDay.AFTERNOON);
   }
 
   clickOnVacationDay(event: any) {
     event.stopPropagation();
-    console.log("pm");
+    this.openRemoveDialog(event, VacationDay.ALL);
+  }
+
+  private openRemoveDialog(event: any, vacationDay: VacationDay) {
+    const dialogRef = this.dialog.open(RemovevacationdialogComponent, {
+      data: {
+        vacationDay: vacationDay
+      },
+      position: {
+        left: event.x + "px",
+        top: event.y + "px",
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      if(result) {
+        this.store.dispatch(removeVacation({partOfDay: vacationDay, aType: undefined, aDate: this.day.date}))
+      }
+    });
   }
 }

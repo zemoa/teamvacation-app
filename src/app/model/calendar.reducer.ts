@@ -85,7 +85,9 @@ function addOrRemoveDay(state: CalendarState, aDate: Date, aType: VacationType, 
   if(updatedDay.am.modified || updatedDay.pm.modified) {
     console.log("Add modification");
     modifiedDays = modifiedDays.concat(updatedDay);
-    vacations = vacations.concat(updatedDay);
+    if(added) {
+      vacations = vacations.concat(updatedDay);
+    }
   } else {
     console.log("Remove modification");
   }
