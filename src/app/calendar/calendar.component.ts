@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Day } from '../model/day';
 import { VacationType } from '../model/dto';
-import {Observable, of} from "rxjs";
+import {combineLatest, concat, forkJoin, merge, Observable, of} from "rxjs";
 import {select, Store} from "@ngrx/store";
 import {AppState, CalendarState, getVacationForMonth} from "../model/calendar.store";
-import {map, mergeMap} from "rxjs/operators";
+import {concatMap, map, mergeMap} from "rxjs/operators";
+import * as _ from "lodash";
+
 class CalendarDay {
   date: Date;
   am?: VacationType;
@@ -15,8 +17,9 @@ class CalendarDay {
   styleUrls: ['./calendar.component.scss']
 })
 export class CalendarComponent implements OnInit {
-  days: CalendarDay[] = [];
+  days$: Observable<CalendarDay[]>;
   currentDate: Date;
+  vacationTypeValues = VacationType;
 
   constructor(private store: Store<AppState>) { }
 
@@ -25,20 +28,25 @@ export class CalendarComponent implements OnInit {
     const currentMonth = this.currentDate.getMonth();
     const currentYear = this.currentDate.getFullYear();
     const nbDay = new Date(currentYear, currentMonth, 0).getDate();
+    let tmpDays : CalendarDay[] = [];
     for(let day = 1; day <= nbDay; day++) {
       var dayObj = new CalendarDay();
       dayObj.date = new Date(currentYear, currentMonth, day);
-      this.days.push(dayObj);
+      tmpDays.push(dayObj);
     }
 
-    this.store.pipe(
+    this.days$ = this.store.pipe(
         select(getVacationForMonth, {month: currentMonth}),
-    ).subscribe(vacations => {
-      vacations.forEach(vacation => {
-        let day = this.days.find(day => day.date.getDate() === vacation.date.getDate())
-        day.pm = vacation.pm.type;
-        day.am = vacation.am.type;
-      });
-    });
+        map(vacations => {
+          vacations.forEach(vacation => {
+            let day = {..._.first(_.remove(tmpDays, day => day.date.getDate() === vacation.date.getDate()))};
+            day.pm = vacation.pm.type;
+            day.am = vacation.am.type;
+            tmpDays.push(day);
+          });
+          return tmpDays;
+        }),
+      map(days => _.sortBy(days, ['date']))
+      );
   }
 }

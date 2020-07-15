@@ -9,10 +9,11 @@ import { FormsModule } from '@angular/forms';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
+import { VacationtypeComponent } from './components/vacationtype/vacationtype.component';
 
 @NgModule({
-  declarations: [PageNotFoundComponent, WebviewDirective, NavbarComponent],
+  declarations: [PageNotFoundComponent, WebviewDirective, NavbarComponent, VacationtypeComponent],
   imports: [CommonModule, TranslateModule, FormsModule, MatToolbarModule, MatIconModule],
-  exports: [TranslateModule, WebviewDirective, FormsModule, NavbarComponent, RouterModule]
+  exports: [TranslateModule, WebviewDirective, FormsModule, NavbarComponent, RouterModule, VacationtypeComponent]
 })
 export class SharedModule {}

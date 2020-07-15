@@ -1,7 +1,11 @@
-import { Component, OnInit, ChangeDetectionStrategy,  Input } from '@angular/core';
-import { Day } from '../../model/day';
-import { AddvacationdialogComponent } from './addvacationdialog/addvacationdialog.component';
-import { MatDialog } from '@angular/material/dialog';
+import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
+import {Day} from '../../model/day';
+import {AddvacationdialogComponent, AddvacationdialogData} from './addvacationdialog/addvacationdialog.component';
+import {MatDialog} from '@angular/material/dialog';
+import {VacationDay, VacationType} from "../../model/dto";
+import {Store} from "@ngrx/store";
+import {AppState} from "../../model/calendar.store";
+import {addVacation} from "../../model/actions/calendar.actions";
 
 @Component({
   selector: 'app-day',
@@ -10,26 +14,46 @@ import { MatDialog } from '@angular/material/dialog';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DayComponent implements OnInit {
-  
+
   @Input() day: Day;
   @Input() firstOfRow: boolean;
   @Input() firstRow: boolean;
+  @Input() vacationType: VacationType;
 
-  constructor(public dialog: MatDialog) { }
+  constructor(public dialog: MatDialog, private store: Store<AppState>) { }
 
   ngOnInit(): void {
   }
 
   clickOnDay(event: any) {
-    console.log("day");
-    this.dialog.open(AddvacationdialogComponent, {
-      data: {
-        pm: !this.day.pm,
-        am: !this.day.am
-      },
+    const initalPmChecked = !!this.day.pm;
+    const initalAmChecked = !!this.day.am;
+    const input: AddvacationdialogData = {
+      pm: true,
+      disablePm: initalPmChecked,
+      am: true,
+      disableAm: initalAmChecked,
+    };
+    const dialogRef = this.dialog.open(AddvacationdialogComponent, {
+      data: input,
       position: {
         left: event.x + "px",
         top: event.y + "px",
+      }
+    });
+    dialogRef.afterClosed().subscribe((result: AddvacationdialogData) => {
+      if(result && (initalAmChecked !== result.am || initalPmChecked !== result.pm)) {
+        let vacationDay: VacationDay;
+        if(result.am && result.pm) {
+          vacationDay = VacationDay.ALL;
+        } else if(result.am) {
+          vacationDay = VacationDay.MORNING;
+        } else if(result.pm) {
+          vacationDay = VacationDay.AFTERNOON;
+        }
+        if(vacationDay) {
+          this.store.dispatch(addVacation({partOfDay: vacationDay, aType: this.vacationType, aDate: this.day.date}))
+        }
       }
     });
   }
@@ -38,7 +62,7 @@ export class DayComponent implements OnInit {
     console.log("am");
     event.stopPropagation();
   }
-  
+
   clickOnPm(event: any) {
     event.stopPropagation();
     console.log("pm");

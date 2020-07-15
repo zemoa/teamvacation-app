@@ -5,6 +5,7 @@ export enum VacationType{
 }
 
 export enum VacationDay{
+    UNKNOWN,
     ALL,
     MORNING,
     AFTERNOON,

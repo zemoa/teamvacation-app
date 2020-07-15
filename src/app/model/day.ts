@@ -2,8 +2,8 @@ import { VacationType } from "./dto";
 
 export class Day {
     date: Date;
-    am: ModifiedType;
-    pm: ModifiedType;
+    am: ModifiedType = new ModifiedType();
+    pm: ModifiedType = new ModifiedType();
 
 }
 

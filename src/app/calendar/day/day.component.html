@@ -1,12 +1,14 @@
 <div class="day" [class.firstRow]="firstRow" [class.first]="firstOfRow" (click)="clickOnDay($event)">
-    <div *ngIf="!day.am" class="header">{{day.date.getDate()}}</div>
-    <div *ngIf="day.am && !day.pm" class="am vacation" (click)="clickOnAm($event)">
-        {{day.date.getDate()}}
+    <div *ngIf="!day.am" class="header"><span class="nb">{{day.date.getDate()}}</span></div>
+    <div *ngIf="day.am && day.pm !== day.am" class="am vacation" (click)="clickOnAm($event)">
+      <span class="nb">{{day.date.getDate()}}</span>
+      <span class="vacation-type"><app-vacationtype [key]="day.am"></app-vacationtype></span>
     </div>
-    <div *ngIf="day.pm && !day.am" class="pm vacation" (click)="clickOnPm($event)">
-
+    <div *ngIf="day.pm && day.pm !== day.am" class="pm vacation" (click)="clickOnPm($event)">
+      <span class="vacation-type"><app-vacationtype [key]="day.pm"></app-vacationtype></span>
     </div>
-    <div *ngIf="day.pm && day.am" class="vacation" (click)="clickOnVacationDay($event)">
-        {{day.date.getDate()}}
+    <div *ngIf="day.pm && day.am && day.pm === day.am" class="vacation" (click)="clickOnVacationDay($event)">
+      <span class="nb">{{day.date.getDate()}}</span>
+      <span class="vacation-type"><app-vacationtype [key]="day.am"></app-vacationtype></span>
     </div>
 </div>

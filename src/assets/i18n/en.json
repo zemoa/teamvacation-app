@@ -9,5 +9,9 @@
         "TITLE": "Detail page !",
         "BACK_TO_HOME": "Back to Home"
     }
+  },
+  "vacation": {
+    "standard" : "CP",
+    "rtt" : "RTT"
   }
 }

@@ -10,8 +10,7 @@
 $gutter-color: #DDDDDD;
 $gutter-size: 2px;
 .day {
-    text-align: right;
-    font-size: 3vw;
+    font-size: 2vw;
     box-sizing: border-box;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
@@ -33,6 +32,10 @@ $gutter-size: 2px;
     .header {
         height: 50%;
     }
+    .nb {
+      position: absolute;
+      right: 5px;
+    }
     .header, .vacation {
         padding: 5px;
         box-sizing: border-box;
@@ -47,8 +50,14 @@ $gutter-size: 2px;
         &:hover {
             background-color: mat-color($primary, 800);
         }
+      .vacation-type {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+      }
         &.am, &.pm {
-            height: 50%;
+          height: 50%;
         }
         &.am {
             border-bottom: solid 1px white;
@@ -57,5 +66,5 @@ $gutter-size: 2px;
             bottom: 0;
         }
     }
-    
+
 }

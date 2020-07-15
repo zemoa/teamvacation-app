@@ -24,20 +24,20 @@ export const initialState: CalendarState = {
 const calendarReducer = createReducer(
   initialState,
 
-  on(CalendarActions.add, (state, {aDate, aType, partOfDay}) => {
+  on(CalendarActions.addVacation, (state, {aDate, aType, partOfDay}) => {
     return addOrRemoveDay(state, aDate, aType, partOfDay, true);
   }),
 
-  on(CalendarActions.remove, (state, {aDate, aType, partOfDay}) => {
+  on(CalendarActions.removeVacation, (state, {aDate, aType, partOfDay}) => {
 
     return addOrRemoveDay(state, aDate, aType, partOfDay, false);
   }),
 
-  on(CalendarActions.reload, state => {
+  on(CalendarActions.reloadVacation, state => {
     return initialState; //TODO
   }),
 
-  on(CalendarActions.save, state => {
+  on(CalendarActions.saveVacation, state => {
     return state
   }),
 )
@@ -47,33 +47,45 @@ export function reducer(state: CalendarState | undefined, action: Action) {
 }
 
 function addOrRemoveDay(state: CalendarState, aDate: Date, aType: VacationType, partOfDay: VacationDay, added: boolean): CalendarState {
-  let modifiedDays = state.modifiedDays;
-  let updatedDay = _.first(_.remove(modifiedDays, {date: aDate}));
-  if(!updatedDay) {
-    updatedDay = state.vacations.find(value => value.date === aDate);
+  let modifiedDays = [...state.modifiedDays];
+  let updatedDay: Day;
+  let foundDay = _.first(_.remove(modifiedDays, {date: aDate}));
+  if(!foundDay) {
+    foundDay = state.vacations.find(value => value.date === aDate);
   }
-  if(!updatedDay) {
+  if(!foundDay) {
     updatedDay = new Day();
+    updatedDay.date = aDate;
+  } else {
+    updatedDay = {...foundDay};
   }
 
   if(partOfDay == VacationDay.ALL || partOfDay == VacationDay.MORNING) {
+    let modified = updatedDay.am.modified;
     if(updatedDay.am.type !== aType) {
-      updatedDay.am.modified = !updatedDay.am.modified;
+      modified = !modified;
     }
-    updatedDay.am.type = aType;
+    updatedDay.am = {
+      type : aType,
+      modified : modified
+    };
   }
   if(partOfDay == VacationDay.ALL || partOfDay == VacationDay.AFTERNOON) {
+    let modified = updatedDay.pm.modified;
     if(updatedDay.pm.type !== aType) {
-      updatedDay.pm.modified = !updatedDay.pm.modified;
+      modified = !modified;
     }
-    updatedDay.pm.type = aType;
+    updatedDay.pm = {
+      type : aType,
+      modified : modified
+    }
   }
-  let vacations = state.vacations;
-  _.remove(state.vacations, {date: updatedDay.date});
+  let vacations = [...state.vacations];
+  _.remove(vacations, value => value.date === updatedDay.date);
   if(updatedDay.am.modified || updatedDay.pm.modified) {
     console.log("Add modification");
-    modifiedDays.push(updatedDay);
-    vacations.push(updatedDay);
+    modifiedDays = modifiedDays.concat(updatedDay);
+    vacations = vacations.concat(updatedDay);
   } else {
     console.log("Remove modification");
   }

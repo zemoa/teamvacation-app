@@ -10,16 +10,17 @@
     </button>
 </app-navbar>
 <section>
-    <mat-button-toggle-group>
-        <mat-button-toggle value="standard">{{ 'vacation.standard' | translate }}</mat-button-toggle>
-        <mat-button-toggle value="rtt">{{ 'vacation.rtt' | translate }}</mat-button-toggle>
+    <mat-button-toggle-group #group="matButtonToggleGroup" [value]="vacationTypeValues.Standard">
+        <mat-button-toggle [value]="vacationTypeValues.Standard">{{ 'vacation.standard' | translate }}</mat-button-toggle>
+        <mat-button-toggle [value]="vacationTypeValues.RTT">{{ 'vacation.rtt' | translate }}</mat-button-toggle>
     </mat-button-toggle-group>
 </section>
 <mat-divider></mat-divider>
 <section>
     <mat-grid-list cols="7" [gutterSize]="0">
-        <mat-grid-tile *ngFor="let day of days; index as index">
-            <app-day [day]="day" [firstRow]="index < 7? true:false" [firstOfRow]="index%7 == 0"></app-day>
+        <mat-grid-tile *ngFor="let day of days$ | async; index as index">
+            <app-day [day]="day" [firstRow]="index < 7? true:false" [firstOfRow]="index%7 == 0" [vacationType]="group.value"></app-day>
         </mat-grid-tile>
     </mat-grid-list>
 </section>
+
