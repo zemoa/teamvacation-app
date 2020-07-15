@@ -12,6 +12,7 @@ export class CalendarDay {
   am?: VacationType;
   pm?: VacationType;
   isWorked: boolean;
+  isOtherMonth: boolean;
 }
 @Component({
   templateUrl: './calendar.component.html',
@@ -34,6 +35,7 @@ export class CalendarComponent implements OnInit {
         select(getVacationForMonth, {month: monthObj.month, year: monthObj.year}),
         map(vacations => {
           let tmpDays : CalendarDay[] = [];
+          this.fillWithPreviousMonth(monthObj.month, monthObj.year, tmpDays);
           const nbDay = new Date(monthObj.month, monthObj.year, 0).getDate();
           for(let day = 1; day <= nbDay; day++) {
             let dayObj = new CalendarDay();
@@ -53,10 +55,22 @@ export class CalendarComponent implements OnInit {
         map(days => _.sortBy(days, ['date']))
       );
     });
-
-
   }
 
+  private fillWithPreviousMonth(month: number, year: number, tmpDays: CalendarDay[]) {
+    let dayInc = 1;
+    const firstDate = new Date(year, month, dayInc);
+    let tmpDayOfWeek = firstDate.getDay();
+    while(tmpDayOfWeek > 1) {
+      let dayObj = new CalendarDay();
+      dayInc--;
+      dayObj.date = new Date(year, month, dayInc);
+      dayObj.isWorked = false;
+      dayObj.isOtherMonth = true;
+      tmpDays.push(dayObj);
+      tmpDayOfWeek--;
+    }
+  }
   get dateTitle(): Observable<Date> {
     return this.selectedMonthSubject.asObservable().pipe(map(monthObj => new Date(monthObj.year, monthObj.month)));
   }

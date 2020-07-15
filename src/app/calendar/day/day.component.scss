@@ -1,73 +1,88 @@
 @import 'variables';
 
-:host{
-    height: 100%;
-    position: absolute;
-    left: 0;
-    right: 0;
+:host {
+  height: 100%;
+  position: absolute;
+  left: 0;
+  right: 0;
 }
 
 $gutter-color: #DDDDDD;
 $gutter-size: 2px;
 .day {
-    font-size: 2vw;
+  font-size: 1em;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  height: 100%;
+  width: 100%;
+  border-right: solid $gutter-color $gutter-size;
+  border-bottom: solid $gutter-color $gutter-size;
+  &.otherMonth {
+    background-color: mat-color($primary, 50);
+  }
+  &.firstRow {
+    border-top: solid $gutter-color $gutter-size;
+  }
+
+  &.first {
+    border-left: solid $gutter-color $gutter-size;;
+  }
+
+  &.worked:hover {
+    color: white;
+    background-color: mat-color($primary, 400);
+    cursor: pointer;
+  }
+
+  &.notWorked {
+    background-color: mat-color($primary, 100);
+  }
+
+  .header {
+    height: 50%;
+  }
+
+  .nb {
+    position: absolute;
+    right: 5px;
+  }
+
+  .header, .vacation {
+    padding: 5px;
     box-sizing: border-box;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
-    height: 100%;
-    width: 100%;
-    border-right: solid $gutter-color $gutter-size;
-    border-bottom: solid $gutter-color $gutter-size;
-    &.firstRow{
-        border-top: solid $gutter-color $gutter-size;
-    }
-    &.first{
-        border-left: solid $gutter-color $gutter-size;;
-    }
-    &.worked:hover{
-        color: white;
-        background-color: mat-color($primary,400);
-        cursor: pointer;
-    }
-  &.notWorked {
-    background-color: mat-color($primary,100);
   }
-    .header {
-        height: 50%;
+
+  .vacation {
+    width: 100%;
+    height: 100%;
+    color: white;
+    background-color: mat-color($primary, 400);
+
+    &:hover {
+      background-color: mat-color($primary, 800);
     }
-    .nb {
-      position: absolute;
-      right: 5px;
+
+    .vacation-type {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
     }
-    .header, .vacation {
-        padding: 5px;
-        box-sizing: border-box;
-        -moz-box-sizing: border-box;
-        -webkit-box-sizing: border-box;
+
+    &.am, &.pm {
+      height: 50%;
     }
-    .vacation {
-        width: 100%;
-        height: 100%;
-        color: white;
-        background-color: mat-color($primary, 400);
-        &:hover {
-            background-color: mat-color($primary, 800);
-        }
-      .vacation-type {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        height: 100%;
-      }
-        &.am, &.pm {
-          height: 50%;
-        }
-        &.am {
-            border-bottom: solid 1px white;
-        }
-        &.pm {
-            bottom: 0;
-        }
+
+    &.am {
+      border-bottom: solid 1px white;
     }
+
+    &.pm {
+      bottom: 0;
+    }
+  }
 
 }
