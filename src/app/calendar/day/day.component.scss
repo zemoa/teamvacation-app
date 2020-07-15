@@ -24,11 +24,14 @@ $gutter-size: 2px;
     &.first{
         border-left: solid $gutter-color $gutter-size;;
     }
-    &:hover{
+    &.worked:hover{
         color: white;
         background-color: mat-color($primary,400);
         cursor: pointer;
     }
+  &.notWorked {
+    background-color: mat-color($primary,100);
+  }
     .header {
         height: 50%;
     }

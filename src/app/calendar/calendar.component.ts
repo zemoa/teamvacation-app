@@ -7,10 +7,11 @@ import {AppState, CalendarState, getVacationForMonth} from "../model/calendar.st
 import {concatMap, map, mergeMap} from "rxjs/operators";
 import * as _ from "lodash";
 
-class CalendarDay {
+export class CalendarDay {
   date: Date;
   am?: VacationType;
   pm?: VacationType;
+  isWorked: boolean;
 }
 @Component({
   templateUrl: './calendar.component.html',
@@ -37,6 +38,8 @@ export class CalendarComponent implements OnInit {
           for(let day = 1; day <= nbDay; day++) {
             let dayObj = new CalendarDay();
             dayObj.date = new Date(currentYear, currentMonth, day);
+            const dayOfWeek = dayObj.date.getDay();
+            dayObj.isWorked = dayOfWeek != 6 && dayOfWeek != 0;
             tmpDays.push(dayObj);
           }
           vacations.forEach(vacation => {

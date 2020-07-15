@@ -7,6 +7,7 @@ import {Store} from "@ngrx/store";
 import {AppState} from "../../model/calendar.store";
 import {addVacation, removeVacation} from "../../model/actions/calendar.actions";
 import {RemovevacationdialogComponent} from "./removevacationdialog/removevacationdialog.component";
+import {CalendarDay} from "../calendar.component";
 
 @Component({
   selector: 'app-day',
@@ -16,7 +17,7 @@ import {RemovevacationdialogComponent} from "./removevacationdialog/removevacati
 })
 export class DayComponent implements OnInit {
 
-  @Input() day: Day;
+  @Input() day: CalendarDay;
   @Input() firstOfRow: boolean;
   @Input() firstRow: boolean;
   @Input() vacationType: VacationType;
@@ -45,11 +46,16 @@ export class DayComponent implements OnInit {
     dialogRef.afterClosed().subscribe((result: AddvacationdialogData) => {
       if(result && (initalAmChecked !== result.am || initalPmChecked !== result.pm)) {
         let vacationDay: VacationDay;
-        if(result.am && result.pm) {
+        if(result.am && result.pm &&
+          (
+            !initalAmChecked && !initalPmChecked ||
+            ((this.day.am == this.vacationType || this.day.pm == this.vacationType))
+          )
+        ) {
           vacationDay = VacationDay.ALL;
-        } else if(result.am) {
+        } else if(!initalAmChecked && result.am) {
           vacationDay = VacationDay.MORNING;
-        } else if(result.pm) {
+        } else if(!initalPmChecked && result.pm) {
           vacationDay = VacationDay.AFTERNOON;
         }
         if(vacationDay) {

@@ -1,4 +1,4 @@
-<div class="day" [class.firstRow]="firstRow" [class.first]="firstOfRow" (click)="clickOnDay($event)">
+<div class="day" [class.notWorked]="!day.isWorked" [class.worked]="day.isWorked" [class.firstRow]="firstRow" [class.first]="firstOfRow" (click)="clickOnDay($event)">
     <div *ngIf="!day.am" class="header"><span class="nb">{{day.date.getDate()}}</span></div>
     <div *ngIf="day.am && day.pm !== day.am" class="am vacation" (click)="clickOnAm($event)">
       <span class="nb">{{day.date.getDate()}}</span>
