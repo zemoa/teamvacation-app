@@ -28,41 +28,43 @@ export class DayComponent implements OnInit {
   }
 
   clickOnDay(event: any) {
-    const initalPmChecked = !!this.day.pm;
-    const initalAmChecked = !!this.day.am;
-    const input: AddvacationdialogData = {
-      pm: true,
-      disablePm: initalPmChecked,
-      am: true,
-      disableAm: initalAmChecked,
-    };
-    const dialogRef = this.dialog.open(AddvacationdialogComponent, {
-      data: input,
-      position: {
-        left: event.x + "px",
-        top: event.y + "px",
-      }
-    });
-    dialogRef.afterClosed().subscribe((result: AddvacationdialogData) => {
-      if(result && (initalAmChecked !== result.am || initalPmChecked !== result.pm)) {
-        let vacationDay: VacationDay;
-        if(result.am && result.pm &&
-          (
-            !initalAmChecked && !initalPmChecked ||
-            ((this.day.am == this.vacationType || this.day.pm == this.vacationType))
-          )
-        ) {
-          vacationDay = VacationDay.ALL;
-        } else if(!initalAmChecked && result.am) {
-          vacationDay = VacationDay.MORNING;
-        } else if(!initalPmChecked && result.pm) {
-          vacationDay = VacationDay.AFTERNOON;
+    if(!this.day.isOtherMonth && this.day.isWorked) {
+      const initalPmChecked = !!this.day.pm;
+      const initalAmChecked = !!this.day.am;
+      const input: AddvacationdialogData = {
+        pm: true,
+        disablePm: initalPmChecked,
+        am: true,
+        disableAm: initalAmChecked,
+      };
+      const dialogRef = this.dialog.open(AddvacationdialogComponent, {
+        data: input,
+        position: {
+          left: event.x + "px",
+          top: event.y + "px",
         }
-        if(vacationDay) {
-          this.store.dispatch(addVacation({partOfDay: vacationDay, aType: this.vacationType, aDate: this.day.date}))
+      });
+      dialogRef.afterClosed().subscribe((result: AddvacationdialogData) => {
+        if (result && (initalAmChecked !== result.am || initalPmChecked !== result.pm)) {
+          let vacationDay: VacationDay;
+          if (result.am && result.pm &&
+            (
+              !initalAmChecked && !initalPmChecked ||
+              ((this.day.am == this.vacationType || this.day.pm == this.vacationType))
+            )
+          ) {
+            vacationDay = VacationDay.ALL;
+          } else if (!initalAmChecked && result.am) {
+            vacationDay = VacationDay.MORNING;
+          } else if (!initalPmChecked && result.pm) {
+            vacationDay = VacationDay.AFTERNOON;
+          }
+          if (vacationDay) {
+            this.store.dispatch(addVacation({partOfDay: vacationDay, aType: this.vacationType, aDate: this.day.date}))
+          }
         }
-      }
-    });
+      });
+    }
   }
 
   clickOnAm(event: any) {
