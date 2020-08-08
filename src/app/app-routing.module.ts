@@ -6,6 +6,7 @@ import { HomeRoutingModule } from './home/home-routing.module';
 import { DetailRoutingModule } from './detail/detail-routing.module';
 import { LoginRoutingModule } from './login/login-routing.module';
 import { CalendarModule } from './calendar/calendar.module';
+import {AdminModule} from "./admin/admin.module";
 
 const routes: Routes = [
   {
@@ -25,7 +26,8 @@ const routes: Routes = [
     HomeRoutingModule,
     DetailRoutingModule,
     LoginRoutingModule,
-    CalendarModule
+    CalendarModule,
+    AdminModule
   ],
   exports: [RouterModule]
 })
