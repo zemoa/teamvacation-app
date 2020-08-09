@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { VacationService } from "./vacation.service";
+import {UserService} from "./user.service";
 
 @NgModule({
   declarations: [],
@@ -9,6 +10,6 @@ import { VacationService } from "./vacation.service";
     CommonModule,
     HttpClientModule
   ],
-  exports: [VacationService]
+  exports: [VacationService, UserService]
 })
 export class ServiceModule { }

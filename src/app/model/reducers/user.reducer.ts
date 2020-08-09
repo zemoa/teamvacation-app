@@ -20,6 +20,14 @@ const userReducer = createReducer(
     }
     return state;
   }),
+  on(UserAction.addedUserSuccess, (state, user) => {
+    return {
+      ...state,
+      adding: false,
+      users: [...state.users, user]
+    }
+    return state;
+  }),
 
   on(UserAction.deleteUser, (state, {id}) => {
     return state;

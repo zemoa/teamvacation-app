@@ -33,6 +33,7 @@ import { LoginModule } from './login/login.module';
 import { CalendarModule } from './calendar/calendar.module';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import {UserEffect} from "./model/effects/user.effect";
 
 
 // AoT requires an exported function for factories
@@ -67,7 +68,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     LoginModule,
     CalendarModule,
     StoreModule.forRoot({calendarState: calendarStore.reducer, userState: userStore.reducer}, {}),
-    EffectsModule.forRoot([]),
+    EffectsModule.forRoot([UserEffect]),
   ],
   providers: [],
   bootstrap: [AppComponent]

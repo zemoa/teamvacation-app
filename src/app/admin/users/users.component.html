@@ -12,7 +12,7 @@
     <input matInput formControlName="email">
   </mat-form-field>
   <div>
-    <button mat-mini-fab color="primary" [disabled]="!canAdd" aria-label="{{ 'admins.users.add' | translate }}">
+    <button mat-mini-fab color="primary" [disabled]="!canAdd" aria-label="{{ 'admins.users.add' | translate }}" (click)="addUser()">
       <mat-icon>add</mat-icon>
     </button>
   </div>

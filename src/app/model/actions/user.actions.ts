@@ -1,12 +1,17 @@
 import {createAction, props} from "@ngrx/store";
+import {User} from "../user";
 const USER_ACTION = '[User Action]';
+export const KEY_ADD = USER_ACTION + ' Add';
+export const KEY_ADD_SUCCESS = USER_ACTION + ' Added Success';
+
 export const addUser = createAction(
-  USER_ACTION + ' Add',
+  KEY_ADD,
   props<{firstname: string, lastname: string, email: string}>()
 )
 
 export const addedUserSuccess = createAction(
-  USER_ACTION + ' Added Success'
+  KEY_ADD_SUCCESS,
+  props<User>()
 )
 
 export const deleteUser = createAction(
