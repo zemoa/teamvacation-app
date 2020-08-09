@@ -8,4 +8,16 @@ table {
   text-align: center;
 }
 
-
+.inline-form {
+  width: 100%;
+  display: table;
+  & > * {
+    display: table-cell;
+  }
+  & > *:not(:last-child) {
+    padding-right: 10px;
+  }
+  & > div:last-child {
+    text-align: center;
+  }
+}

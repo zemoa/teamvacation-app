@@ -10,6 +10,8 @@ import {MatFormFieldModule} from "@angular/material/form-field";
 import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
+import {MatIconModule} from "@angular/material/icon";
+import {MatMenuModule} from "@angular/material/menu";
 
 
 
@@ -24,7 +26,9 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms";
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    ReactiveFormsModule
+    MatIconModule,
+    MatMenuModule,
+    ReactiveFormsModule,
   ]
 })
 export class AdminModule { }

@@ -3,7 +3,7 @@ import {Observable} from "rxjs";
 import {User} from "../../model/user";
 import {AppState} from "../../model/store/app.state";
 import {select, Store} from "@ngrx/store";
-import {getUserState} from "../../model/store/user.store";
+import {getUsers, getUserState} from "../../model/store/user.store";
 import {map} from "rxjs/operators";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {addUser} from "../../model/actions/user.actions";
@@ -14,7 +14,7 @@ import {addUser} from "../../model/actions/user.actions";
   styleUrls: ['./users.component.scss']
 })
 export class UsersComponent implements OnInit {
-  users: User[] = [];
+  users$: Observable<User[]>;
   adding = false;
   displayedColumns: string[] = ['firstname', 'lastname', 'email', 'action'];
   addingForm = new FormGroup({
@@ -25,10 +25,10 @@ export class UsersComponent implements OnInit {
   constructor(private store: Store<AppState>) { }
 
   ngOnInit(): void {
+    this.users$ = this.store.pipe(select(getUsers));
     this.store.pipe(
       select(getUserState)
     ).subscribe(userState => {
-      this.users = userState.users;
       this.adding = userState.adding;
     });
   }

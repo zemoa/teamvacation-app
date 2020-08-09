@@ -1,4 +1,7 @@
 {
+  "cancel": "cancel",
+  "no": "no",
+  "yes": "yes",
   "PAGES": {
       "HOME": {
           "TITLE": "App works !",
@@ -13,5 +16,18 @@
   "vacation": {
     "standard" : "CP",
     "rtt" : "RTT"
+  },
+  "admins": {
+    "tab": {
+      "users": "Manage users"
+    },
+    "users": {
+      "firstname": "Firstname",
+      "lastname": "Lastname",
+      "email": "Email",
+      "delete": "Delete user",
+      "add": "Add user",
+      "modifypwd": "Modify users's password"
+    }
   }
 }
