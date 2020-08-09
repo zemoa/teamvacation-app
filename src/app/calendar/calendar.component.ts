@@ -3,9 +3,10 @@ import { Day } from '../model/day';
 import { VacationType } from '../model/dto';
 import {BehaviorSubject, combineLatest, concat, forkJoin, merge, Observable, of, Subject} from "rxjs";
 import {select, Store} from "@ngrx/store";
-import {AppState, CalendarState, getVacationForMonth} from "../model/calendar.store";
+import {CalendarState, getVacationForMonth} from "../model/store/calendar.store";
 import {concatMap, map, mergeMap} from "rxjs/operators";
 import * as _ from "lodash";
+import {AppState} from "../model/store/app.state";
 
 export class CalendarDay {
   date: Date;

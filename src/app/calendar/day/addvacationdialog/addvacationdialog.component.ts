@@ -1,7 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import {Store} from "@ngrx/store";
-import {AppState} from "../../../model/calendar.store";
 
 export interface AddvacationdialogData {
   am?: boolean;

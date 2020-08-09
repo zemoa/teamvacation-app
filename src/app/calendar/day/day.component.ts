@@ -4,7 +4,7 @@ import {AddvacationdialogComponent, AddvacationdialogData} from './addvacationdi
 import {MatDialog} from '@angular/material/dialog';
 import {VacationDay, VacationType} from "../../model/dto";
 import {Store} from "@ngrx/store";
-import {AppState} from "../../model/calendar.store";
+import {AppState} from "../../model/store/app.state";
 import {addVacation, removeVacation} from "../../model/actions/calendar.actions";
 import {RemovevacationdialogComponent} from "./removevacationdialog/removevacationdialog.component";
 import {CalendarDay} from "../calendar.component";

@@ -1,9 +1,9 @@
-import {Day} from "./day";
+import {Day} from "../day";
 import {Action, createReducer, on} from "@ngrx/store";
-import * as CalendarActions from './actions/calendar.actions';
+import * as CalendarActions from '../actions/calendar.actions';
 import * as _ from 'lodash';
-import {VacationDay, VacationType} from "./dto";
-import {CalendarState} from "./calendar.store";
+import {VacationDay, VacationType} from "../dto";
+import {CalendarState} from "../store/calendar.store";
 
 
 export const initialState: CalendarState = {

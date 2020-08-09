@@ -1,8 +1,7 @@
-import {Day} from "./day";
+import {Day} from "../day";
 import {createSelector} from "@ngrx/store";
-export interface AppState {
-  calendarState: CalendarState;
-}
+import {AppState} from "./app.state";
+
 export interface CalendarState {
   vacations: Day[];
   modifiedDays: Day[];

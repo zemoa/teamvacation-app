@@ -99,6 +99,7 @@
     "@angular/cdk": "^9.0.0",
     "@angular/forms": "^9.0.0",
     "@angular/material": "^9.0.0",
+    "@ngrx/effects": "9.2.0",
     "@ngrx/store": "9.2.0",
     "lodash": "4.17.19",
     "roboto-fontface": "0.10.0"

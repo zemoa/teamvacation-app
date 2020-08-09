@@ -8,7 +8,8 @@ import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 import { ServiceModule } from "./core/services/ws/ws.module";
-import * as calendarStore from "./model/calendar.reducer";
+import * as calendarStore from "./model/reducers/calendar.reducer";
+import * as userStore from "./model/reducers/user.reducer";
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -31,6 +32,7 @@ import { MatDialogModule } from "@angular/material/dialog";
 import { LoginModule } from './login/login.module';
 import { CalendarModule } from './calendar/calendar.module';
 import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
 
 
 // AoT requires an exported function for factories
@@ -64,7 +66,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     MatDialogModule,
     LoginModule,
     CalendarModule,
-    StoreModule.forRoot({calendarState: calendarStore.reducer}, {}),
+    StoreModule.forRoot({calendarState: calendarStore.reducer, userState: userStore.reducer}, {}),
+    EffectsModule.forRoot([]),
   ],
   providers: [],
   bootstrap: [AppComponent]
