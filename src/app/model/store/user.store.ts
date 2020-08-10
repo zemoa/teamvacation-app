@@ -4,7 +4,7 @@ import {createSelector} from "@ngrx/store";
 
 export interface UserState {
   loading: boolean;
-  adding: boolean;
+  saving: boolean;
   users: User[];
 }
 

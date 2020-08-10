@@ -6,7 +6,7 @@ import {select, Store} from "@ngrx/store";
 import {getUsers, getUserState} from "../../model/store/user.store";
 import {map} from "rxjs/operators";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {addUser} from "../../model/actions/user.actions";
+import {addUser, deleteUser, loadUsers, modifySecret} from "../../model/actions/user.actions";
 
 @Component({
   selector: 'app-users',
@@ -29,17 +29,27 @@ export class UsersComponent implements OnInit {
     this.store.pipe(
       select(getUserState)
     ).subscribe(userState => {
-      this.adding = userState.adding;
+      this.adding = userState.saving;
     });
+    this.store.dispatch(loadUsers());
   }
 
-  addUser(): void {
+  addUser() {
     this.store.dispatch(addUser({
       lastname: this.addingForm.get('lastname').value,
       firstname: this.addingForm.get('firstname').value,
       email: this.addingForm.get('email').value
     }));
   }
+
+  removeUser(id: number) {
+    this.store.dispatch(deleteUser({id: id}));
+  }
+
+  modifySecret(id: number) {
+    this.store.dispatch(modifySecret({id: id, secret: 'TODO'}));
+  }
+
   get canAdd(): boolean {
     return this.addingForm.valid;
   }

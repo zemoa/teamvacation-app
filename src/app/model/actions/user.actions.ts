@@ -20,7 +20,8 @@ export const deleteUser = createAction(
 )
 
 export const deletedUserSuccess = createAction(
-  USER_ACTION + ' Deleted Success'
+  USER_ACTION + ' Deleted Success',
+  props<{id: number}>()
 )
 
 export const modifyUser = createAction(
@@ -29,12 +30,22 @@ export const modifyUser = createAction(
 )
 
 export const modifiedUserSuccess = createAction(
-  USER_ACTION + ' Modified Success'
+  USER_ACTION + ' Modified Success',
+  props<{ savedUser: User }>()
 )
 
 export const loadUsers = createAction(
   USER_ACTION + ' Load'
 )
 export const loadedUsersSuccess = createAction(
-  USER_ACTION + ' Loaded Success'
+  USER_ACTION + ' Loaded Success',
+  props<{users: User[]}>()
+)
+
+export const modifySecret = createAction(
+  USER_ACTION + ' Secret',
+  props<{id: number, secret: string}>()
+)
+export const modifiedSecretSuccess = createAction(
+  USER_ACTION + ' Modified sexret Success'
 )

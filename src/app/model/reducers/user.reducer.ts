@@ -1,13 +1,12 @@
 import {UserState} from "../store/user.store";
 import * as UserAction from "../actions/user.actions";
 import {Action, createReducer, on} from "@ngrx/store";
+import * as _ from "lodash";
 
 export const initialState: UserState = {
   loading: false,
-  adding: false,
+  saving: false,
   users: [
-    {id:0, email:"toto@email.com", firstName: "toto Prénom", lastName: "toto Nom"},
-    {id:1, email:"titi@email.com", firstName: "titi Prénom", lastName: "Titi Nom"}
   ],
 };
 
@@ -16,30 +15,75 @@ const userReducer = createReducer(
   on(UserAction.addUser, (state, {email, firstname, lastname}) => {
     return {
       ...state,
-      adding: true
+      saving: true
     }
     return state;
   }),
   on(UserAction.addedUserSuccess, (state, user) => {
     return {
       ...state,
-      adding: false,
+      saving: false,
       users: [...state.users, user]
     }
     return state;
   }),
 
   on(UserAction.deleteUser, (state, {id}) => {
-    return state;
+    return {
+      ...state,
+      saving: true
+    }
+  }),
+  on(UserAction.deletedUserSuccess, (state, {id}) => {
+    let newUsers = [...state.users];
+    _.remove(newUsers, value => value.id === id);
+    const removedUser = state.users.findIndex(user => user.id === id);
+    return {
+      ...state,
+      users: newUsers,
+      saving: false
+    }
   }),
 
   on(UserAction.loadUsers, (state) => {
-    return state;
+    return {
+      ...state,
+      loading: true
+    };
+  }),
+  on(UserAction.loadedUsersSuccess, (state, {users}) => {
+    return {
+      ...state,
+      users: users
+    }
   }),
 
   on(UserAction.modifyUser, (state, {id, email, firstname, lastname}) => {
-    return state;
+    return {
+      ...state,
+      saving: true
+    };
   }),
+  on(UserAction.modifiedUserSuccess, (state, {savedUser}) => {
+    const modifiedIndex = state.users.findIndex(user => user.id === savedUser.id);
+    return {
+      ...state,
+      saving: false,
+      users: [state.users.slice(0, modifiedIndex), savedUser, state.users.slice(modifiedIndex+1, state.users.length)]
+    }
+  }),
+  on(UserAction.modifySecret, state => {
+    return {
+      ...state,
+      saving: true
+    }
+  }),
+  on(UserAction.modifiedSecretSuccess, state => {
+    return {
+      ...state,
+      saving: false
+    }
+  })
 )
 
 export function reducer(state: UserState | undefined, action: Action) {
