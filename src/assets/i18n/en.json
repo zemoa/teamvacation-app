@@ -29,5 +29,10 @@
       "add": "Add user",
       "modifypwd": "Modify users's password"
     }
+  },
+  "menu" : {
+    "home": "Home",
+    "calendar": "Calendar",
+    "management": "Management"
   }
 }

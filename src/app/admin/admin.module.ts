@@ -12,11 +12,13 @@ import {MatButtonModule} from "@angular/material/button";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatIconModule} from "@angular/material/icon";
 import {MatMenuModule} from "@angular/material/menu";
+import { ModifysecretdialogComponent } from './users/modifysecretdialog/modifysecretdialog.component';
+import {MatDialogModule} from "@angular/material/dialog";
 
 
 
 @NgModule({
-  declarations: [UsersComponent, AdminHomeComponent],
+  declarations: [UsersComponent, AdminHomeComponent, ModifysecretdialogComponent],
   imports: [
     CommonModule,
     AdminRoutingModule,
@@ -29,6 +31,7 @@ import {MatMenuModule} from "@angular/material/menu";
     MatIconModule,
     MatMenuModule,
     ReactiveFormsModule,
+    MatDialogModule
   ]
 })
 export class AdminModule { }

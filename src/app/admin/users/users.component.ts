@@ -1,12 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {Observable} from "rxjs";
 import {User} from "../../model/user";
 import {AppState} from "../../model/store/app.state";
 import {select, Store} from "@ngrx/store";
 import {getUsers, getUserState} from "../../model/store/user.store";
-import {map} from "rxjs/operators";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {addUser, deleteUser, loadUsers, modifySecret} from "../../model/actions/user.actions";
+import {MatDialog} from "@angular/material/dialog";
+import {ModifysecretdialogComponent, ModifysecretdialogData} from "./modifysecretdialog/modifysecretdialog.component";
 
 @Component({
   selector: 'app-users',
@@ -22,7 +23,7 @@ export class UsersComponent implements OnInit {
     lastname: new FormControl('', Validators.required),
     email: new FormControl('', Validators.required)
   })
-  constructor(private store: Store<AppState>) { }
+  constructor(private store: Store<AppState>, public dialog: MatDialog) { }
 
   ngOnInit(): void {
     this.users$ = this.store.pipe(select(getUsers));
@@ -35,11 +36,18 @@ export class UsersComponent implements OnInit {
   }
 
   addUser() {
-    this.store.dispatch(addUser({
-      lastname: this.addingForm.get('lastname').value,
-      firstname: this.addingForm.get('firstname').value,
-      email: this.addingForm.get('email').value
-    }));
+    const dialogRef = this.dialog.open(ModifysecretdialogComponent, {
+      data: {},
+    });
+    dialogRef.afterClosed().subscribe((result: ModifysecretdialogData) => {
+      this.store.dispatch(addUser({
+        lastname: this.addingForm.get('lastname').value,
+        firstname: this.addingForm.get('firstname').value,
+        email: this.addingForm.get('email').value,
+        secret: result.secret
+      }));
+    });
+
   }
 
   removeUser(id: number) {
@@ -47,7 +55,12 @@ export class UsersComponent implements OnInit {
   }
 
   modifySecret(id: number) {
-    this.store.dispatch(modifySecret({id: id, secret: 'TODO'}));
+    const dialogRef = this.dialog.open(ModifysecretdialogComponent, {
+      data: {},
+    });
+    dialogRef.afterClosed().subscribe((result: ModifysecretdialogData) => {
+      this.store.dispatch(modifySecret({id: id, secret: result.secret}));
+    });
   }
 
   get canAdd(): boolean {

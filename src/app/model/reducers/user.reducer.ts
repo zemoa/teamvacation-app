@@ -12,7 +12,7 @@ export const initialState: UserState = {
 
 const userReducer = createReducer(
   initialState,
-  on(UserAction.addUser, (state, {email, firstname, lastname}) => {
+  on(UserAction.addUser, (state, {email, firstname, lastname, secret}) => {
     return {
       ...state,
       saving: true
@@ -37,7 +37,6 @@ const userReducer = createReducer(
   on(UserAction.deletedUserSuccess, (state, {id}) => {
     let newUsers = [...state.users];
     _.remove(newUsers, value => value.id === id);
-    const removedUser = state.users.findIndex(user => user.id === id);
     return {
       ...state,
       users: newUsers,

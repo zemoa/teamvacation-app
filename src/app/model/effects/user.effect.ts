@@ -10,7 +10,7 @@ import {EMPTY} from "rxjs";
 export class UserEffect {
   createUser$ = createEffect(() => this.actions$.pipe(
       ofType(UserAction.addUser),
-      mergeMap( newUser => this.userService.createUser(newUser.firstname, newUser.lastname, newUser.email, "TODO")),
+      mergeMap( newUser => this.userService.createUser(newUser.firstname, newUser.lastname, newUser.email, newUser.secret)),
       map(user => (UserAction.addedUserSuccess(user)))
     )
   );

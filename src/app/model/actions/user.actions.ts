@@ -6,7 +6,7 @@ export const KEY_ADD_SUCCESS = USER_ACTION + ' Added Success';
 
 export const addUser = createAction(
   KEY_ADD,
-  props<{firstname: string, lastname: string, email: string}>()
+  props<{firstname: string, lastname: string, email: string, secret: string}>()
 )
 
 export const addedUserSuccess = createAction(
