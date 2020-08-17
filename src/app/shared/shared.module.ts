@@ -12,10 +12,12 @@ import { MatMenuModule } from '@angular/material/menu';
 import {MatButtonModule} from "@angular/material/button";
 import { RouterModule } from '@angular/router';
 import { VacationtypeComponent } from './components/vacationtype/vacationtype.component';
+import { ConfirmdialogComponent } from './components/confirmdialog/confirmdialog.component';
+import {MatDialogModule} from "@angular/material/dialog";
 
 @NgModule({
-  declarations: [PageNotFoundComponent, WebviewDirective, NavbarComponent, VacationtypeComponent],
-  imports: [CommonModule, TranslateModule, FormsModule, MatToolbarModule, MatIconModule, MatMenuModule, MatButtonModule],
+  declarations: [PageNotFoundComponent, WebviewDirective, NavbarComponent, VacationtypeComponent, ConfirmdialogComponent],
+  imports: [CommonModule, TranslateModule, FormsModule, MatToolbarModule, MatIconModule, MatMenuModule, MatButtonModule, MatDialogModule],
   exports: [TranslateModule, WebviewDirective, FormsModule, NavbarComponent, RouterModule, VacationtypeComponent]
 })
 export class SharedModule {}
