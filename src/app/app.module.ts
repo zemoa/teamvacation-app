@@ -10,6 +10,7 @@ import { SharedModule } from './shared/shared.module';
 import { ServiceModule } from "./core/services/ws/ws.module";
 import * as calendarStore from "./model/reducers/calendar.reducer";
 import * as userStore from "./model/reducers/user.reducer";
+import * as loginStore from "./model/reducers/login.reducer";
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -34,6 +35,7 @@ import { CalendarModule } from './calendar/calendar.module';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import {UserEffect} from "./model/effects/user.effect";
+import {LoginEffect} from "./model/effects/login.effect";
 
 
 // AoT requires an exported function for factories
@@ -67,8 +69,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     MatDialogModule,
     LoginModule,
     CalendarModule,
-    StoreModule.forRoot({calendarState: calendarStore.reducer, userState: userStore.reducer}, {}),
-    EffectsModule.forRoot([UserEffect]),
+    StoreModule.forRoot({calendarState: calendarStore.reducer, userState: userStore.reducer, loginState: loginStore.reducer}, {}),
+    EffectsModule.forRoot([UserEffect, LoginEffect]),
   ],
   providers: [],
   bootstrap: [AppComponent]

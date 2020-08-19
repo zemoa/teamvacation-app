@@ -1,0 +1,17 @@
+.content-div {
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 50px;
+  max-width: 50%;
+  form {
+    display: flex;
+    flex-direction: column;
+    .line {
+      display: flex;
+      flex-direction: row;
+      & > * {
+        flex-grow: 5;
+      }
+    }
+  }
+}

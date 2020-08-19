@@ -1,5 +1,6 @@
 import {createAction, props} from "@ngrx/store";
-import {User} from "../user";
+import {User, UserModel} from "../user";
+
 const USER_ACTION = '[User Action]';
 export const KEY_ADD = USER_ACTION + ' Add';
 export const KEY_ADD_SUCCESS = USER_ACTION + ' Added Success';
@@ -47,5 +48,5 @@ export const modifySecret = createAction(
   props<{id: number, secret: string}>()
 )
 export const modifiedSecretSuccess = createAction(
-  USER_ACTION + ' Modified sexret Success'
+  USER_ACTION + ' Modified secret Success'
 )

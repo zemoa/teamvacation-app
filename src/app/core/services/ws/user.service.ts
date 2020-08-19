@@ -18,7 +18,7 @@ export class UserService {
     );
   }
 
-  saveUser(firstname: string, lastname: string, email: string): Observable<User> {
+  saveUser(id: number, firstname: string, lastname: string, email: string): Observable<User> {
     return of(<User>{
       id: -2,
       firstName: firstname,
@@ -42,5 +42,14 @@ export class UserService {
       lastName: lastname,
       email: email
     })
+  }
+
+  getUser(id: number): Observable<User> {
+    return of(<User>{
+      firstName: "me",
+      lastName: "myName",
+      email: "toto@toto.com",
+      id:id
+    });
   }
 }

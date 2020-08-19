@@ -1,0 +1,37 @@
+<app-navbar>
+  {{ 'settings.title' | translate}}
+</app-navbar>
+<div class="content-div">
+    <form [formGroup]="userForm">
+      <h3>Modification du compte</h3>
+      <mat-form-field appearance="standard" class="single">
+        <mat-label>{{ 'settings.firstname' | translate }}</mat-label>
+        <input matInput required formControlName="firstName">
+      </mat-form-field>
+      <mat-form-field appearance="standard" class="single">
+        <mat-label>{{ 'settings.lastname' | translate }}</mat-label>
+        <input matInput required formControlName="lastName">
+      </mat-form-field>
+      <mat-form-field appearance="standard" class="single">
+        <mat-label>{{ 'settings.email' | translate }}</mat-label>
+        <input matInput type="email" required formControlName="email">
+        <mat-icon matSuffix>alternate_email</mat-icon>
+      </mat-form-field>
+      <div class="line">
+        <mat-form-field appearance="standard" class="double">
+          <mat-label>{{ 'settings.secret' | translate }}</mat-label>
+          <input matInput type="password">
+          <mat-icon matSuffix>lock</mat-icon>
+        </mat-form-field>
+        <span class="spacer"></span>
+        <mat-form-field appearance="standard" class="double">
+          <mat-label>{{ 'settings.confirmsecret' | translate }}</mat-label>
+          <input matInput type="password">
+          <mat-icon matSuffix>lock</mat-icon>
+        </mat-form-field>
+      </div>
+    </form>
+    <button mat-raised-button color="primary"  (click)="reloadUser()">reload</button>
+    <button mat-raised-button (click)="cancel()">{{'cancel' | translate}}</button>
+    <button mat-raised-button color="primary" [disabled]="!userForm.valid || !userForm.dirty"  (click)="confirm()">{{'ok' | translate}}</button>
+</div>

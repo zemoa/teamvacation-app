@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Observable} from "rxjs";
-import {User} from "../../model/user";
+import {User, UserModel} from "../../model/user";
 import {AppState} from "../../model/store/app.state";
 import {select, Store} from "@ngrx/store";
 import {getUsers, getUserState} from "../../model/store/user.store";
@@ -16,7 +16,7 @@ import {ConfirmdialogComponent} from "../../shared/components/confirmdialog/conf
   styleUrls: ['./users.component.scss']
 })
 export class UsersComponent implements OnInit {
-  users$: Observable<User[]>;
+  users$: Observable<UserModel[]>;
   adding = false;
   displayedColumns: string[] = ['firstname', 'lastname', 'email', 'action'];
   addingForm = new FormGroup({

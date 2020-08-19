@@ -4,3 +4,7 @@ export class User {
   firstName: string;
   lastName: string;
 }
+
+export class UserModel extends User {
+  saving: boolean;
+}

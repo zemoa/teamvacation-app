@@ -1,0 +1,14 @@
+.name {
+  text-align: right;
+  font-size: smaller;
+  word-break: break-all;
+  display: flex;
+  flex-direction: column;
+  line-height: initial;
+  width: 120px;
+  & > * {
+    text-overflow: ellipsis;
+    max-width: 100%;
+    overflow: hidden;
+  }
+}

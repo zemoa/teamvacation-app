@@ -1,10 +1,8 @@
 import {Injectable} from "@angular/core";
 import {Actions, createEffect, ofType} from "@ngrx/effects"
 import * as UserAction from "../actions/user.actions"
-import {catchError, map, mergeMap} from "rxjs/operators";
-import {User} from "../user";
+import {map, mergeMap} from "rxjs/operators";
 import {UserService} from "../../core/services/ws/user.service";
-import {EMPTY} from "rxjs";
 
 @Injectable()
 export class UserEffect {
@@ -17,7 +15,7 @@ export class UserEffect {
 
   saveUser$ = createEffect(() => this.actions$.pipe(
     ofType(UserAction.modifyUser),
-    mergeMap(user => this.userService.saveUser(user.firstname, user.lastname, user.email)),
+    mergeMap(user => this.userService.saveUser(user.id, user.firstname, user.lastname, user.email)),
     map(user => (UserAction.modifiedUserSuccess({savedUser: user})))
   ))
 
