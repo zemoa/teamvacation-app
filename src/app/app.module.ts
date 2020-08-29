@@ -4,7 +4,7 @@ import '../polyfills';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import {HttpClientModule, HttpClient, HTTP_INTERCEPTORS} from '@angular/common/http';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 import { ServiceModule } from "./core/services/ws/ws.module";
@@ -36,6 +36,8 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import {UserEffect} from "./model/effects/user.effect";
 import {LoginEffect} from "./model/effects/login.effect";
+import {TokenInterceptor} from "./shared/helpers/token-interceptor.service";
+import {HttpErrorInterceptor} from "./shared/helpers/http-error-interceptor.service";
 
 
 // AoT requires an exported function for factories
@@ -72,7 +74,10 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     StoreModule.forRoot({calendarState: calendarStore.reducer, userState: userStore.reducer, loginState: loginStore.reducer}, {}),
     EffectsModule.forRoot([UserEffect, LoginEffect]),
   ],
-  providers: [],
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi:true},
+    {provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi:true},
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

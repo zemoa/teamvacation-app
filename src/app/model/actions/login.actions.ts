@@ -7,14 +7,16 @@ export const login = createAction(
   props<{login: string, secret: string}>()
 )
 
-export const loadInfo = createAction(
-  LOGIN_ACTION + " load info",
-  props<{id: number}>()
+export const logged = createAction(
+  LOGIN_ACTION + " logged",
+  props<{
+    token: string,
+    user: User
+  }>()
 )
 
-export const infoLoaded= createAction(
-  LOGIN_ACTION + " Info loaded",
-  props<User>()
+export const logginError = createAction(
+  LOGIN_ACTION + " error"
 )
 
 export const save= createAction(

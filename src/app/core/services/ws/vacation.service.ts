@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 export class VacationService {
     constructor(private http: HttpClient){}
 
-    getVacationList() : Observable<VacationDto[]>{
+    getVacationList(id: number, start: Date, end: Date) : Observable<VacationDto[]>{
         return this.http.get<VacationDto[]>('');
     }
 }

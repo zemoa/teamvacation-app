@@ -8,12 +8,17 @@ import { LoginRoutingModule } from './login/login-routing.module';
 import { CalendarModule } from './calendar/calendar.module';
 import {AdminModule} from "./admin/admin.module";
 import {SettingsModule} from "./settings/settings.module";
+import {AuthGuard} from "./shared/helpers/auth-guard.service";
+import {CalendarRoutingModule} from "./calendar/calendar-routing.module";
+import {SettingsRoutingModule} from "./settings/settings-routing.module";
+import {AdminRoutingModule} from "./admin/admin-routing.module";
 
 const routes: Routes = [
   {
     path: '',
     redirectTo: 'home',
-    pathMatch: 'full'
+    pathMatch: 'full',
+    canActivate: [AuthGuard]
   },
   {
     path: '**',
@@ -27,9 +32,9 @@ const routes: Routes = [
     HomeRoutingModule,
     DetailRoutingModule,
     LoginRoutingModule,
-    CalendarModule,
-    SettingsModule,
-    AdminModule
+    CalendarRoutingModule,
+    SettingsRoutingModule,
+    AdminRoutingModule
   ],
   exports: [RouterModule]
 })

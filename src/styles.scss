@@ -25,7 +25,8 @@
 }
 
 body {
-font-family: Roboto;
+  font-family: Roboto;
+  margin: 0px;
 }
 
 .interactivebtn {
@@ -42,4 +43,8 @@ font-family: Roboto;
 
 .input-full-width {
   width: 100%;
+}
+
+.error-msg {
+  color: mat-color($warn, 500);
 }

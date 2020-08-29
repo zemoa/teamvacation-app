@@ -1,2 +1,30 @@
-<app-navbar></app-navbar>
-<a routerLink="/">{{ 'PAGES.DETAIL.BACK_TO_HOME' | translate }}</a>
+<div class="main">
+
+  <div class="center">
+
+    <form>
+      <img src="assets/icons/logo_transparent.png" />
+
+      <mat-form-field appearance="outline">
+        <mat-label>Login</mat-label>
+        <input matInput type="email" [(ngModel)]="loginForm.login" name="login" [disabled]="(connecting$ | async)"/>
+        <mat-icon color="primary" matSuffix>alternate_email</mat-icon>
+      </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Password</mat-label>
+        <input matInput type="password" [(ngModel)]="loginForm.secret" name="secret" [disabled]="(connecting$ | async)"/>
+        <mat-icon color="primary" matSuffix>lock</mat-icon>
+      </mat-form-field>
+      <div *ngIf="loginError$ | async" class="error-msg">L'identifiant et le mot de passe ne correspondent pas</div>
+      <button *ngIf="!(connecting$ | async)" mat-raised-button color="primary" (click)="submitLogin()" >Connection</button>
+      <div class="connecting-wrapper" *ngIf="(connecting$ | async)">
+        <div>Connecting...</div>
+        <mat-spinner diameter="36" ></mat-spinner>
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
+
