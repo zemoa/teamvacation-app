@@ -38,6 +38,8 @@ import {UserEffect} from "./model/effects/user.effect";
 import {LoginEffect} from "./model/effects/login.effect";
 import {TokenInterceptor} from "./shared/helpers/token-interceptor.service";
 import {HttpErrorInterceptor} from "./shared/helpers/http-error-interceptor.service";
+import {SettingsModule} from "./settings/settings.module";
+import {AdminModule} from "./admin/admin.module";
 
 
 // AoT requires an exported function for factories
@@ -71,6 +73,8 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     MatDialogModule,
     LoginModule,
     CalendarModule,
+    SettingsModule,
+    AdminModule,
     StoreModule.forRoot({calendarState: calendarStore.reducer, userState: userStore.reducer, loginState: loginStore.reducer}, {}),
     EffectsModule.forRoot([UserEffect, LoginEffect]),
   ],

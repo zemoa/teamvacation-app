@@ -2,6 +2,7 @@
   "cancel": "cancel",
   "no": "no",
   "yes": "yes",
+  "login": "Login",
   "PAGES": {
       "HOME": {
           "TITLE": "App works !",

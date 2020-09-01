@@ -1,6 +1,6 @@
 import {Action, createReducer, on} from "@ngrx/store";
 import {LoginState} from "../store/login.store";
-import {logged, logginError, login, save} from "../actions/login.actions";
+import {logged, loggedout, logginError, login, logout, save} from "../actions/login.actions";
 
 export const initialState: LoginState = {
   connected: false,
@@ -44,6 +44,8 @@ const loginReducer = createReducer(
       roles: []
     }
   }),
+
+  on(loggedout, (state) => initialState),
 
   on(save, (state, user) => {
     return {

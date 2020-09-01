@@ -1,12 +1,13 @@
 import {User} from "../user";
 import {AppState} from "./app.state";
 import {createSelector} from "@ngrx/store";
+import {Role} from "../dto";
 
 export interface LoginState {
   connectedUser: User | undefined | null;
   token: string | undefined | null;
   connected: boolean;
-  roles: string[];
+  roles: Role[];
   connecting: boolean;
   error: boolean;
 }

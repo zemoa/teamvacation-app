@@ -7,6 +7,11 @@ export const login = createAction(
   props<{login: string, secret: string}>()
 )
 
+
+export const initLogin = createAction(
+  LOGIN_ACTION + " initLogin"
+)
+
 export const logged = createAction(
   LOGIN_ACTION + " logged",
   props<{
@@ -17,6 +22,14 @@ export const logged = createAction(
 
 export const logginError = createAction(
   LOGIN_ACTION + " error"
+)
+
+export const logout = createAction(
+  LOGIN_ACTION + " logout"
+)
+
+export const loggedout = createAction(
+  LOGIN_ACTION + " loggedout"
 )
 
 export const save= createAction(

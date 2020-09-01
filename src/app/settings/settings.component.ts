@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {select, Store} from "@ngrx/store";
 import {AppState} from "../model/store/app.state";
 import {login, save} from "../model/actions/login.actions";
-import {Observable} from "rxjs";
 import {User} from "../model/user";
 import {getLoggedUser} from "../model/store/login.store";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
@@ -55,8 +54,4 @@ export class SettingsComponent implements OnInit {
     });
   }
 
-
-  reloadUser() {
-    this.store.dispatch(login({login: "TODO", secret: "TODO"}));
-  }
 }

@@ -1,10 +1,11 @@
 import {Injectable} from "@angular/core";
 import {Actions, createEffect, ofType} from "@ngrx/effects"
 import * as LoginAction from "../actions/login.actions"
-import {catchError, map, mergeMap, repeat} from "rxjs/operators";
+import {catchError, map, mergeMap, repeat, tap} from "rxjs/operators";
 import {UserService} from "../../core/services/ws/user.service";
-import {of, zip} from "rxjs";
+import {EMPTY, of, zip} from "rxjs";
 import {AuthService} from "../../core/services/ws/auth.service";
+import {tokenize} from "@angular/compiler/src/ml_parser/lexer";
 
 @Injectable()
 export class LoginEffect {
@@ -28,6 +29,31 @@ export class LoginEffect {
     repeat()
    )
   );
+
+  initLogin$ = createEffect(() => this.actions$.pipe(
+    ofType(LoginAction.initLogin),
+    mergeMap(_ => this.authService.token? of(this.authService.token): EMPTY),
+    mergeMap(token => zip(
+      this.userService.getLogged(),
+      of({
+        id: 0,
+        roles: [],
+        token: token
+      })
+    )),
+    map(zipresult => (LoginAction.logged({
+        token: zipresult[1].token,
+        user: zipresult[0]
+      }))
+    ),
+    catchError(() => of(LoginAction.logout())),
+  ));
+
+  logout$ = createEffect(() => this.actions$.pipe(
+    ofType(LoginAction.logout),
+    tap(_ => this.authService.logout()),
+    map(_ => (LoginAction.loggedout()))
+  ));
 
   save$ = createEffect(() => this.actions$.pipe(
     ofType(LoginAction.save),

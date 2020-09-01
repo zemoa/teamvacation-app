@@ -12,7 +12,7 @@
           <mat-icon>calendar_today</mat-icon>
           <span>{{ 'menu.calendar' | translate }}</span>
         </button>
-        <button mat-menu-item routerLink="/admin" >
+        <button *ngIf="isAdmin" mat-menu-item routerLink="/admin" >
           <mat-icon>supervisor_account</mat-icon>
           <span>{{ 'menu.management' | translate }}</span>
         </button>
@@ -34,7 +34,7 @@
           <mat-icon>settings</mat-icon>
           <span>{{ 'menu.account.settings' | translate }}</span>
         </button>
-        <button mat-menu-item routerLink="/calendar"  >
+        <button mat-menu-item (click)="onLogout()" >
           <mat-icon>power_settings_new</mat-icon>
           <span>{{ 'menu.account.logout' | translate }}</span>
         </button>

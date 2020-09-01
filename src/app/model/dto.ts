@@ -17,4 +17,10 @@ export class VacationDto {
     vacationDay: VacationDay;
 }
 
+export enum Role {
+  ROLE_USER = 'ROLE_USER',
+  ROLE_VALIDEUR = 'ROLE_VALIDEUR',
+  ROLE_ADMIN = 'ROLE_ADMIN'
+}
+
 

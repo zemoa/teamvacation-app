@@ -28,6 +28,7 @@ export class LoginComponent implements OnInit {
     this.loginError$ = this.store.pipe(select(isLoggingError));
     this.store.pipe(select(isLogged))
       .subscribe(value => this.router.navigate(["/home"]));
+    this.store.dispatch(LoginAction.initLogin());
   }
 
   submitLogin(): void {
