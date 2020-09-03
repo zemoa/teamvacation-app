@@ -12,6 +12,7 @@ export enum VacationDay{
 }
 
 export class VacationDto {
+    id: number;
     date: Date;
     vacationType?: VacationType;
     vacationDay: VacationDay;
@@ -23,4 +24,22 @@ export enum Role {
   ROLE_ADMIN = 'ROLE_ADMIN'
 }
 
+export class ValidateVacDto {
+  mailto: string;
+  mailfrom: string;
+  message: string;
+}
 
+export class AskResultDto {
+  mailfrom: string;
+  mailto: string;
+  ccList: string[] | undefined;
+  message: string;
+  vacationList: VacationDto[];
+}
+
+export class VacationSummary {
+  countStandard: number;
+  countRtt: number;
+  userId:number;
+}

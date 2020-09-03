@@ -3,7 +3,7 @@ import {EMPTY, Observable, of, throwError} from "rxjs";
 import {User} from "../../../model/user";
 import {HttpClient, HttpParams} from "@angular/common/http";
 import {AppConfig} from "../../../../environments/environment";
-import {delay, map, retry, retryWhen} from "rxjs/operators";
+import {delay, map, mergeMap, retry, retryWhen} from "rxjs/operators";
 import {retryHttp} from "../../../shared/helpers/utils.helper";
 
 @Injectable({
@@ -50,26 +50,20 @@ export class UserService {
   }
 
   deleteUser(id:number): Observable<number> {
-    return this.http.delete(UserService.USER_URL + id).pipe(
+    return this.http.delete(`${UserService.USER_URL}${id}`).pipe(
       retryWhen(retryHttp),
-      _ => of(id)
+      mergeMap(_ => of(id))
     );
   }
 
   changeAdmin(id:number, isAdmin: boolean): Observable<never> {
     const httpParams = new HttpParams().set("isAdmin", String(isAdmin));
     return this.http.put(UserService.USER_URL + id + "/admin", { params: httpParams })
-      .pipe(retryWhen(retryHttp), _ => EMPTY);
+      .pipe(retryWhen(retryHttp), mergeMap(_ => EMPTY));
   }
   modifySecret(id: number, secret: string):Observable<never> {
     return this.http.put(UserService.USER_URL + id + "/secret", {
       secret: secret
-    }).pipe(retryWhen(retryHttp), _ => EMPTY);
+    }).pipe(retryWhen(retryHttp), mergeMap(_ => EMPTY));
   }
-
-
-
-
-
-
 }

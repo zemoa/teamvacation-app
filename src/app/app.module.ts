@@ -11,6 +11,7 @@ import { ServiceModule } from "./core/services/ws/ws.module";
 import * as calendarStore from "./model/reducers/calendar.reducer";
 import * as userStore from "./model/reducers/user.reducer";
 import * as loginStore from "./model/reducers/login.reducer";
+import * as errorStore from "./model/reducers/error.reducer";
 
 import { AppRoutingModule } from './app-routing.module';
 
@@ -75,7 +76,10 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
     CalendarModule,
     SettingsModule,
     AdminModule,
-    StoreModule.forRoot({calendarState: calendarStore.reducer, userState: userStore.reducer, loginState: loginStore.reducer}, {}),
+    StoreModule.forRoot({calendarState: calendarStore.reducer,
+      userState: userStore.reducer,
+      loginState: loginStore.reducer,
+      errorState: errorStore.reducer}, {}),
     EffectsModule.forRoot([UserEffect, LoginEffect]),
   ],
   providers: [

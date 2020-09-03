@@ -1,0 +1,8 @@
+<div *ngFor="let error of (errors$ | async); index as i" class="error-viewer-item">
+  <div class="message">
+    {{'error.func.'+error.func | translate}}
+    <br/>
+    {{'error.msg.'+error.type | translate}}
+  </div>
+  <mat-icon (click)="closeError(i)">close</mat-icon>
+</div>

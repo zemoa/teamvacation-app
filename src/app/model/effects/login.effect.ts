@@ -5,7 +5,8 @@ import {catchError, map, mergeMap, repeat, tap} from "rxjs/operators";
 import {UserService} from "../../core/services/ws/user.service";
 import {EMPTY, of, zip} from "rxjs";
 import {AuthService} from "../../core/services/ws/auth.service";
-import {tokenize} from "@angular/compiler/src/ml_parser/lexer";
+import {manageWsErrors} from "../../shared/helpers/utils.helper";
+import {EnumErrorFunc} from "../TVError";
 
 @Injectable()
 export class LoginEffect {
@@ -58,7 +59,8 @@ export class LoginEffect {
   save$ = createEffect(() => this.actions$.pipe(
     ofType(LoginAction.save),
     mergeMap((user) => this.userService.saveUser(user.id, user.firstName, user.lastName, user.email)),
-    map(resp => (LoginAction.saved({id: resp.id})))
+    map(resp => (LoginAction.saved({id: resp.id}))),
+    catchError(err => manageWsErrors(EnumErrorFunc.SAVE_USER, err))
   ));
 
   constructor(

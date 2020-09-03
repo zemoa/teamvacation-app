@@ -1,40 +1,47 @@
 import {Injectable} from "@angular/core";
 import {Actions, createEffect, ofType} from "@ngrx/effects"
 import * as UserAction from "../actions/user.actions"
-import {map, mergeMap} from "rxjs/operators";
+import {catchError, map, mergeMap} from "rxjs/operators";
 import {UserService} from "../../core/services/ws/user.service";
+import {manageWsErrors} from "../../shared/helpers/utils.helper";
+import {EnumErrorFunc} from "../TVError";
 
 @Injectable()
 export class UserEffect {
   createUser$ = createEffect(() => this.actions$.pipe(
       ofType(UserAction.addUser),
       mergeMap( newUser => this.userService.createUser(newUser.firstname, newUser.lastname, newUser.email, newUser.secret)),
-      map(user => (UserAction.addedUserSuccess(user)))
+      map(user => (UserAction.addedUserSuccess(user))),
+      catchError(err => manageWsErrors(EnumErrorFunc.CREATE_USER, err))
     )
   );
 
   saveUser$ = createEffect(() => this.actions$.pipe(
     ofType(UserAction.modifyUser),
     mergeMap(user => this.userService.saveUser(user.id, user.firstname, user.lastname, user.email)),
-    map(user => (UserAction.modifiedUserSuccess({savedUser: user})))
+    map(user => (UserAction.modifiedUserSuccess({savedUser: user}))),
+    catchError(err => manageWsErrors(EnumErrorFunc.SAVE_USER, err))
   ))
 
   deleteUser$ = createEffect(() => this.actions$.pipe(
     ofType(UserAction.deleteUser),
     mergeMap(deleteProps => this.userService.deleteUser(deleteProps.id)),
-    map(id => (UserAction.deletedUserSuccess({id: id})))
+    map(id => (UserAction.deletedUserSuccess({id: id}))),
+    catchError(err => manageWsErrors(EnumErrorFunc.DELETE_USER, err))
   ))
 
   loadUsers$ = createEffect(() => this.actions$.pipe(
     ofType(UserAction.loadUsers),
     mergeMap(() => this.userService.loadUsers()),
-    map(users => (UserAction.loadedUsersSuccess({users : users})))
+    map(users => (UserAction.loadedUsersSuccess({users : users}))),
+    catchError(err => manageWsErrors(EnumErrorFunc.LOAD_USER, err))
   ))
 
   modifySecret$ = createEffect(() => this.actions$.pipe(
     ofType(UserAction.modifySecret),
     mergeMap(modifedValues => this.userService.modifySecret(modifedValues.id, modifedValues.secret)),
-    map(() => (UserAction.modifiedSecretSuccess()))
+    map(() => (UserAction.modifiedSecretSuccess())),
+    catchError(err => manageWsErrors(EnumErrorFunc.MODIFY_SECRET, err))
   ))
   constructor(
     private actions$: Actions,

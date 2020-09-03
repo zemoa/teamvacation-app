@@ -35,5 +35,15 @@
     "home": "Home",
     "calendar": "Calendar",
     "management": "Management"
+  },
+  "error": {
+    "func": {
+      "UNKNOWN": "An error occured",
+      "SAVE_USER": "Error while saving user"
+    },
+    "msg": {
+      "UNKNOWN": "Unknown reason",
+      "ERROR_CREATEUSER": "Can't create user"
+    }
   }
 }

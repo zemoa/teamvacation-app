@@ -1,0 +1,30 @@
+@import "variables";
+
+:host {
+  position: absolute;
+  top: 0px;
+  z-index: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  .error-viewer-item {
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #f44336;
+    color: white;
+    border-radius: 5px;
+    width: 50%;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-direction: row;
+    .mat-icon {
+      flex: none;
+      cursor: pointer;
+    }
+    .message {
+      flex: auto;
+    }
+  }
+
+}
