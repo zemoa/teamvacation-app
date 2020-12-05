@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { ModifysecretdialogComponent } from './modifysecretdialog.component';
 
@@ -6,7 +6,7 @@ describe('ModifysecretdialogComponent', () => {
   let component: ModifysecretdialogComponent;
   let fixture: ComponentFixture<ModifysecretdialogComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ ModifysecretdialogComponent ]
     })

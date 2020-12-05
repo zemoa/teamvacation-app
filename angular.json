@@ -40,7 +40,7 @@
               "sourceMap": true,
               "extractCss": true,
               "namedChunks": false,
-              "aot": false,
+              "aot": true,
               "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": false,
@@ -120,7 +120,7 @@
             "scripts": [],
             "styles": [
               "src/styles.scss"
-            ],            
+            ],
             "assets": [
               "src/assets"
             ],
@@ -168,7 +168,7 @@
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "app",
-      "styleext": "scss"
+      "style": "scss"
     },
     "@schematics/angular:directive": {
       "prefix": "app"
