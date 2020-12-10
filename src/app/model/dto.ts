@@ -43,3 +43,9 @@ export class VacationSummary {
   countRtt: number;
   userId:number;
 }
+
+export enum EnumValideur {
+  NONE = "NONE",
+  PRINCIPAL = "PRINCIPAL",
+  SECONDARY = "SECONDARY"
+}

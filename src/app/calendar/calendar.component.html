@@ -1,11 +1,11 @@
 <app-navbar>
-    <button class="interactivebtn" mat-mini-fab color="primary" aria-label="Example icon button with a vertical three dot icon" (click)="onPreviousMonthClicked()">
+    <button class="interactivebtn" mat-mini-fab color="primary" (click)="onPreviousMonthClicked()">
         <mat-icon [inline]="true">navigate_before</mat-icon>
     </button>
     <span class="spacer"></span>
     {{ dateTitle | async | date: 'MMMM yyyy' }}
     <span class="spacer"></span>
-    <button class="interactivebtn" mat-mini-fab color="primary" aria-label="Example icon button with a vertical three dot icon" (click)="onNextMonthClicked()">
+    <button class="interactivebtn" mat-mini-fab color="primary" (click)="onNextMonthClicked()">
         <mat-icon inline="true">navigate_next</mat-icon>
     </button>
 </app-navbar>

@@ -1,4 +1,4 @@
-import {UserModel} from "../user";
+import {RoleDto, UserModel} from "../user";
 import {AppState} from "./app.state";
 import {createSelector} from "@ngrx/store";
 
@@ -14,3 +14,11 @@ export const getUsers = createSelector(
   getUserState,
   (state: UserState) => state.users
 )
+
+export const getUsersWithRoles = createSelector(
+  getUsers,
+  (users, props: {roleId: number}) => users.filter(
+    user => user.roleList && user.roleList.some(value => value.id === props.roleId)
+  )
+)
+

@@ -1,5 +1,6 @@
 import {createAction, props} from "@ngrx/store";
-import {User, UserModel} from "../user";
+import {RoleDto, User, UserExt, UserModel} from "../user";
+import {EnumValideur} from "../dto";
 
 const USER_ACTION = '[User Action]';
 export const KEY_ADD = USER_ACTION + ' Add';
@@ -32,7 +33,7 @@ export const modifyUser = createAction(
 
 export const modifiedUserSuccess = createAction(
   USER_ACTION + ' Modified Success',
-  props<{ savedUser: User }>()
+  props<{ savedUser: User | UserExt }>()
 )
 
 export const loadUsers = createAction(
@@ -40,7 +41,7 @@ export const loadUsers = createAction(
 )
 export const loadedUsersSuccess = createAction(
   USER_ACTION + ' Loaded Success',
-  props<{users: User[]}>()
+  props<{users: UserExt[]}>()
 )
 
 export const modifySecret = createAction(
@@ -49,4 +50,24 @@ export const modifySecret = createAction(
 )
 export const modifiedSecretSuccess = createAction(
   USER_ACTION + ' Modified secret Success'
+)
+
+export const modifyValideur = createAction(
+  USER_ACTION + " Modify valideur",
+  props<{idUser: number, valideurType: EnumValideur}>()
+)
+
+export const valideurModifed = createAction(
+  USER_ACTION + " Valideur modified",
+  props<{idUser: number, valideurType: EnumValideur}>()
+)
+
+export const modifyAdmin = createAction(
+  USER_ACTION + " Modify admin",
+  props<{idUser: number, isAdmin: boolean}>()
+)
+
+export const adminModified = createAction(
+  USER_ACTION + " Admin modified",
+  props<{idUser: number, isAdmin: boolean}>()
 )
