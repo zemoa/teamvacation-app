@@ -1,73 +1,40 @@
-import {createAction, props} from "@ngrx/store";
-import {RoleDto, User, UserExt, UserModel} from "../user";
 import {EnumValideur} from "../dto";
 
 const USER_ACTION = '[User Action]';
 export const KEY_ADD = USER_ACTION + ' Add';
 export const KEY_ADD_SUCCESS = USER_ACTION + ' Added Success';
 
-export const addUser = createAction(
-  KEY_ADD,
-  props<{firstname: string, lastname: string, email: string, secret: string}>()
-)
+export class AddUser {
+  static readonly type = KEY_ADD;
+  constructor(public firstname: string, public lastname: string, public email: string, public secret: string){}
+}
 
-export const addedUserSuccess = createAction(
-  KEY_ADD_SUCCESS,
-  props<User>()
-)
+export class DeleteUser {
+  static readonly type = USER_ACTION + ' Delete';
+  constructor(public id: number){}
+}
 
-export const deleteUser = createAction(
-  USER_ACTION + ' Delete',
-  props<{id: number}>()
-)
+export class ModifyUser {
+  static readonly type = USER_ACTION + ' Modify';
+  constructor(public id: number, public firstname: string, public lastname: string, public email: string){}
+}
 
-export const deletedUserSuccess = createAction(
-  USER_ACTION + ' Deleted Success',
-  props<{id: number}>()
-)
+export class LoadUsers {
+  static readonly type = USER_ACTION + ' Load';
+}
 
-export const modifyUser = createAction(
-  USER_ACTION + ' Modify',
-  props<{id: number, firstname: string, lastname: string, email: string}>()
-)
 
-export const modifiedUserSuccess = createAction(
-  USER_ACTION + ' Modified Success',
-  props<{ savedUser: User | UserExt }>()
-)
+export class ModifySecret {
+  static readonly type = USER_ACTION + ' Secret';
+  constructor(public id: number, public secret: string){}
+}
 
-export const loadUsers = createAction(
-  USER_ACTION + ' Load'
-)
-export const loadedUsersSuccess = createAction(
-  USER_ACTION + ' Loaded Success',
-  props<{users: UserExt[]}>()
-)
+export class ModifyValideur {
+  static readonly type = USER_ACTION + " Modify valideur";
+  constructor(public idUser: number, public valideurType: EnumValideur){}
+}
 
-export const modifySecret = createAction(
-  USER_ACTION + ' Secret',
-  props<{id: number, secret: string}>()
-)
-export const modifiedSecretSuccess = createAction(
-  USER_ACTION + ' Modified secret Success'
-)
-
-export const modifyValideur = createAction(
-  USER_ACTION + " Modify valideur",
-  props<{idUser: number, valideurType: EnumValideur}>()
-)
-
-export const valideurModifed = createAction(
-  USER_ACTION + " Valideur modified",
-  props<{idUser: number, valideurType: EnumValideur}>()
-)
-
-export const modifyAdmin = createAction(
-  USER_ACTION + " Modify admin",
-  props<{idUser: number, isAdmin: boolean}>()
-)
-
-export const adminModified = createAction(
-  USER_ACTION + " Admin modified",
-  props<{idUser: number, isAdmin: boolean}>()
-)
+export class ModifyAdmin {
+  static readonly type = USER_ACTION + " Modify admin";
+  constructor(public idUser: number, public isAdmin: boolean){}
+}

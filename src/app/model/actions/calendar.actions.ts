@@ -1,24 +1,18 @@
-import {createAction, props} from "@ngrx/store";
-import {Day} from "../day";
 import {VacationDay, VacationType} from "../dto";
 
-export const addVacation = createAction(
-  '[Calendar Action] Add',
-  props<{aDate: Date, aType: VacationType, partOfDay: VacationDay}>()
-);
-export const removeVacation = createAction(
-  '[Calendar Action] Remove',
-  props<{aDate: Date, aType: VacationType, partOfDay: VacationDay}>());
-export const loadVacation = createAction(
-  '[Calendar Action] Load',
-  props<{reload:boolean, userId: number, month: Date}>()
-  );
-export const vacationLoaded = createAction(
-  '[Calendar Action] loaded',
-    props<{reload: boolean, vacations: Day[]}>()
-  );
-export const saveVacation = createAction('[Calendar Action] Save');
-export const vacationSaved = createAction(
-  '[Calendar Action] Saved',
-  props<{vacations: Day[]}>()
-);
+export class AddVacation {
+  static readonly type = '[Calendar Action] Add';
+  constructor(public aDate: Date, public aType: VacationType, public partOfDay: VacationDay){}
+}
+export class RemoveVacation {
+  static readonly type = '[Calendar Action] Remove';
+  constructor(public aDate: Date, public aType: VacationType, public partOfDay: VacationDay){}
+}
+export class LoadVacation {
+  static readonly type = '[Calendar Action] Load';
+  constructor(public reload:boolean, public userId: number, public month: Date){}
+}
+
+export class SaveVacation {
+  static readonly type = '[Calendar Action] Save';
+}

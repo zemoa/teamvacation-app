@@ -1,13 +1,11 @@
 import {ChangeDetectionStrategy, Component, Input, OnInit} from '@angular/core';
-import {Day} from '../../model/day';
 import {AddvacationdialogComponent, AddvacationdialogData} from './addvacationdialog/addvacationdialog.component';
 import {MatDialog} from '@angular/material/dialog';
 import {VacationDay, VacationType} from "../../model/dto";
-import {Store} from "@ngrx/store";
-import {AppState} from "../../model/store/app.state";
-import {addVacation, removeVacation} from "../../model/actions/calendar.actions";
 import {RemovevacationdialogComponent} from "./removevacationdialog/removevacationdialog.component";
 import {CalendarDay} from "../calendar.component";
+import {Store} from "@ngxs/store";
+import {AddVacation, RemoveVacation} from "../../model/actions/calendar.actions";
 
 @Component({
   selector: 'app-day',
@@ -22,7 +20,7 @@ export class DayComponent implements OnInit {
   @Input() firstRow: boolean;
   @Input() vacationType: VacationType;
 
-  constructor(public dialog: MatDialog, private store: Store<AppState>) { }
+  constructor(public dialog: MatDialog, private store: Store) { }
 
   ngOnInit(): void {
   }
@@ -60,7 +58,7 @@ export class DayComponent implements OnInit {
             vacationDay = VacationDay.AFTERNOON;
           }
           if (vacationDay) {
-            this.store.dispatch(addVacation({partOfDay: vacationDay, aType: this.vacationType, aDate: this.day.date}))
+            this.store.dispatch(new AddVacation(this.day.date, this.vacationType, vacationDay));
           }
         }
       });
@@ -94,7 +92,7 @@ export class DayComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result) {
-        this.store.dispatch(removeVacation({partOfDay: vacationDay, aType: undefined, aDate: this.day.date}))
+        this.store.dispatch(new RemoveVacation(this.day.date, undefined, vacationDay));
       }
     });
   }

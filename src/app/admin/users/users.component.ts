@@ -1,23 +1,14 @@
 import {Component, OnInit} from '@angular/core';
 import {Observable} from "rxjs";
-import {RoleDto, User, UserModel} from "../../model/user";
-import {AppState} from "../../model/store/app.state";
-import {select, Store} from "@ngrx/store";
-import {getUsers, getUserState} from "../../model/store/user.store";
+import {UserModel} from "../../model/user";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {
-  addUser,
-  deleteUser,
-  loadUsers,
-  modifyAdmin,
-  modifySecret,
-  modifyValideur
-} from "../../model/actions/user.actions";
 import {MatDialog} from "@angular/material/dialog";
 import {ModifysecretdialogComponent, ModifysecretdialogData} from "./modifysecretdialog/modifysecretdialog.component";
 import {ConfirmdialogComponent} from "../../shared/components/confirmdialog/confirmdialog.component";
 import {EnumValideur} from "../../model/dto";
 import {map} from "rxjs/operators";
+import {Select, Store} from "@ngxs/store";
+import {AddUser, DeleteUser, ModifyAdmin, ModifySecret, ModifyValideur} from "../../model/actions/user.actions";
 
 interface UserDto {
   id: number | undefined;
@@ -34,7 +25,7 @@ interface UserDto {
 })
 export class UsersComponent implements OnInit {
   users$: Observable<UserDto[]>;
-  adding = false;
+  @Select(state => state.userState.saving) adding: Observable<boolean>;
   displayedColumns: string[] = ['firstname', 'lastname', 'email', 'admin', 'valideur', 'action'];
   enumValideur = EnumValideur;
   addingForm = new FormGroup({
@@ -42,10 +33,10 @@ export class UsersComponent implements OnInit {
     lastname: new FormControl('', Validators.required),
     email: new FormControl('', Validators.required)
   })
-  constructor(private store: Store<AppState>, public dialog: MatDialog) { }
+  constructor(private store: Store, public dialog: MatDialog) { }
 
   ngOnInit(): void {
-    this.users$ = this.store.pipe(select(getUsers),
+    this.users$ = this.store.select(state => state.userState.users).pipe(
       map(users => {
         return users.map(user => {
           const valideurForm = new FormControl(user.valideurState, {
@@ -66,12 +57,7 @@ export class UsersComponent implements OnInit {
           } as UserDto
         })
       })
-      );
-    this.store.pipe(
-      select(getUserState)
-    ).subscribe(userState => {
-      this.adding = userState.saving;
-    });
+    );
   }
 
   addUser() {
@@ -80,12 +66,12 @@ export class UsersComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((result: ModifysecretdialogData) => {
       if(result.secret) {
-        this.store.dispatch(addUser({
-          lastname: this.addingForm.get('lastname').value,
-          firstname: this.addingForm.get('firstname').value,
-          email: this.addingForm.get('email').value,
-          secret: result.secret
-        }));
+        this.store.dispatch(new AddUser(
+          this.addingForm.get('firstname').value,
+          this.addingForm.get('lastname').value,
+          this.addingForm.get('email').value,
+          result.secret
+        ));
         this.addingForm.reset();
         this.addingForm.clearValidators();
       }
@@ -102,7 +88,7 @@ export class UsersComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((result: boolean) => {
       if(result) {
-        this.store.dispatch(deleteUser({id: id}));
+        this.store.dispatch(new DeleteUser(id));
       }
     });
   }
@@ -113,7 +99,7 @@ export class UsersComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe((result: ModifysecretdialogData) => {
       if(result.secret) {
-        this.store.dispatch(modifySecret({id: id, secret: result.secret}));
+        this.store.dispatch(new ModifySecret(id, result.secret));
       }
     });
   }
@@ -123,11 +109,11 @@ export class UsersComponent implements OnInit {
   }
   onAdminChange(userId: number, isAdmin: boolean) {
     // console.log(`admin : ${userId} - ${isAdmin}`);
-    this.store.dispatch(modifyAdmin({idUser: userId, isAdmin: isAdmin}));
+    this.store.dispatch(new ModifyAdmin(userId, isAdmin));
 }
   onChangeValideur(userId: number, value: EnumValideur){
     // console.log(`valideur : ${userId} - ${value}`);
-    this.store.dispatch(modifyValideur({idUser: userId, valideurType: value}));
+    this.store.dispatch(new ModifyValideur(userId, value));
   }
   get canAdd(): boolean {
     return this.addingForm.valid;

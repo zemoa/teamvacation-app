@@ -1,15 +1,7 @@
-import { Injectable } from '@angular/core';
-import {
-  HttpRequest,
-  HttpHandler,
-  HttpEvent,
-  HttpInterceptor
-} from '@angular/common/http';
-import {BehaviorSubject, Observable} from 'rxjs';
-import {select, Store} from "@ngrx/store";
-import {AppState} from "../../model/store/app.state";
+import {Injectable} from '@angular/core';
+import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
+import {Observable} from 'rxjs';
 import {AppConfig} from "../../../environments/environment";
-import {getToken} from "../../model/store/login.store";
 import {AuthService} from "../../core/services/ws/auth.service";
 
 @Injectable()

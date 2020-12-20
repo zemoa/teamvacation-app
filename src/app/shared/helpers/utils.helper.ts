@@ -1,9 +1,9 @@
 import {Observable, of, throwError} from "rxjs";
 import {delay, scan, switchMap, takeWhile} from "rxjs/operators";
-import {TypedAction} from "@ngrx/store/src/models";
-import * as ErrorAction from "../../model/actions/error.actions";
+import {AddError} from "../../model/actions/error.actions";
 import {EnumErrorFunc, EnumErrorMessage} from "../../model/TVError";
 import * as moment from "moment";
+import {StateContext} from "@ngxs/store";
 
 export function retryHttp(errors: Observable<any>): Observable<any> {
   return errors.pipe(
@@ -26,12 +26,8 @@ export function formatDateForWs(date: Date): string {
     return "";
   }
 }
-
-export function manageWsErrors<T>(errorFunc: EnumErrorFunc, err: any): Observable<TypedAction<any>> {
-  return of(ErrorAction.addError({
-    errorType: EnumErrorMessage.UNKNOWN,
-    errorFunc: errorFunc
-  }));
+export function manageWsErrors(errorFunc: EnumErrorFunc, err: any, ctx: StateContext<any>){
+  ctx.dispatch(new AddError(errorFunc, EnumErrorMessage.UNKNOWN));
 }
 
 export class Constants {

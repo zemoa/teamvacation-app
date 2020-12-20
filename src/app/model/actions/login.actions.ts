@@ -1,43 +1,24 @@
-import {createAction, props} from "@ngrx/store";
 import {User} from "../user";
 const LOGIN_ACTION = '[Login Action]';
 
-export const login = createAction(
-  LOGIN_ACTION + " login",
-  props<{login: string, secret: string}>()
-)
+export class Login {
+  static readonly type = LOGIN_ACTION + " login";
+  constructor(public login: string, public secret: string) {
+  }
+}
 
+export class InitLogin {
+  static readonly type = LOGIN_ACTION + " initLogin";
+}
+export class LogginError {
+  static readonly type =LOGIN_ACTION + " error";
+}
 
-export const initLogin = createAction(
-  LOGIN_ACTION + " initLogin"
-)
+export class Logout {
+  static readonly type =LOGIN_ACTION + " logout";
+}
 
-export const logged = createAction(
-  LOGIN_ACTION + " logged",
-  props<{
-    token: string,
-    user: User
-  }>()
-)
-
-export const logginError = createAction(
-  LOGIN_ACTION + " error"
-)
-
-export const logout = createAction(
-  LOGIN_ACTION + " logout"
-)
-
-export const loggedout = createAction(
-  LOGIN_ACTION + " loggedout"
-)
-
-export const save= createAction(
-  LOGIN_ACTION + " Save",
-  props<User>()
-)
-
-export const saved= createAction(
-  LOGIN_ACTION + " Saved",
-  props<{id: number}>()
-)
+export class Save {
+  static readonly type =LOGIN_ACTION + " Save";
+  constructor(public user: User){}
+}

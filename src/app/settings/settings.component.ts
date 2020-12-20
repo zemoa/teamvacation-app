@@ -1,10 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {select, Store} from "@ngrx/store";
-import {AppState} from "../model/store/app.state";
-import {login, save} from "../model/actions/login.actions";
 import {User} from "../model/user";
-import {getLoggedUser} from "../model/store/login.store";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {Store} from "@ngxs/store";
+import {Save} from "../model/actions/login.actions";
 
 @Component({
   selector: 'app-settings',
@@ -19,12 +17,10 @@ export class SettingsComponent implements OnInit {
     email: new FormControl('', [Validators.required, Validators.email])
     }
   )
-  constructor(private store: Store<AppState>) { }
+  constructor(private store: Store) { }
 
   ngOnInit(): void {
-    this.store.pipe(
-      select(getLoggedUser)
-    ).subscribe(user => {
+    this.store.select(state => state.loginState.connectedUser).subscribe((user: User) => {
       this.intialUser = user;
       if(user) {
         this.userForm.reset({
@@ -38,12 +34,12 @@ export class SettingsComponent implements OnInit {
 
   confirm() {
     const formValue: {email: string, firstName: string, lastName: string} = this.userForm.value;
-    this.store.dispatch(save({
+    this.store.dispatch(new Save({
       id: this.intialUser.id,
       email: formValue.email,
       lastName: formValue.lastName,
       firstName: formValue.firstName
-    }))
+    }));
   }
 
   cancel() {

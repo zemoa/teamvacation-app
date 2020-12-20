@@ -1,13 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {Observable} from "rxjs";
 import {User} from "../../../model/user";
-import {select, Store} from "@ngrx/store";
-import {AppState} from "../../../model/store/app.state";
-import {getLoggedUser, isLogged} from "../../../model/store/login.store";
-import {logout} from "../../../model/actions/login.actions";
 import {Router} from "@angular/router";
 import {AuthService} from "../../../core/services/ws/auth.service";
 import {Role} from "../../../model/dto";
+import {Select, Store} from "@ngxs/store";
+import {Logout} from "../../../model/actions/login.actions";
 
 @Component({
   selector: 'app-navbar',
@@ -15,14 +13,11 @@ import {Role} from "../../../model/dto";
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent implements OnInit {
-  loggedUser$ : Observable<User>;
-  constructor(private store: Store<AppState>, private router:Router, private authService: AuthService) { }
+  @Select(state => state.loginState.connectedUser) loggedUser$ : Observable<User>;
+  constructor(private store: Store, private router:Router, private authService: AuthService) { }
 
   ngOnInit(): void {
-    this.loggedUser$ = this.store.pipe(
-      select(getLoggedUser)
-    );
-    this.store.pipe(select(isLogged)).subscribe(logged => {
+    this.store.select(state => state.loginState.connected).subscribe(logged => {
       if(!logged) {
         this.router.navigate(["/login"])
       }
@@ -30,7 +25,7 @@ export class NavbarComponent implements OnInit {
   }
 
   onLogout(): void {
-    this.store.dispatch(logout());
+    this.store.dispatch(new Logout());
   }
 
   get isAdmin(): boolean {

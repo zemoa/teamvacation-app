@@ -42,7 +42,7 @@ export class VacationService {
   delete(id: number, vacationDtoToDelete: VacationDto[]): Observable<never> {
     const params = new HttpParams();
     params.set("vacationIdToDelete", vacationDtoToDelete.map(value => value.id).toString())
-    return this.http.delete(`${VacationService.VACATION_URL}/${id}/deleteById`, { params: params })
+    return this.http.delete(`${VacationService.VACATION_URL}/${id}/deleteById`, null,{ params: params })
       .pipe(retryWhen(retryHttp), mergeMap(_ => EMPTY));
   }
 
@@ -81,6 +81,14 @@ export class VacationService {
         date: dateStr,
         vacationDay: VacationDay.MORNING
       })
+    } else if (day.am.id > -1) {
+      vacationDtoList.push({
+        validated: false,
+        type: VacationType.UNKNOWN,
+        id: day.am.id,
+        date: dateStr,
+        vacationDay: VacationDay.MORNING
+      });
     }
     if(day.pm.type && day.pm.type !== VacationType.UNKNOWN) {
       vacationDtoList.push({
@@ -90,6 +98,14 @@ export class VacationService {
         date: dateStr,
         vacationDay: VacationDay.AFTERNOON
       })
+    } else if (day.pm.id > -1) {
+      vacationDtoList.push({
+        validated: false,
+        type: VacationType.UNKNOWN,
+        id: day.pm.id,
+        date: dateStr,
+        vacationDay: VacationDay.AFTERNOON
+      });
     }
     return vacationDtoList;
   }

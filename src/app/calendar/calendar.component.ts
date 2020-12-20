@@ -1,14 +1,12 @@
-import { Component, OnInit } from '@angular/core';
-import { Day } from '../model/day';
-import { VacationType } from '../model/dto';
-import {BehaviorSubject, combineLatest, concat, forkJoin, merge, Observable, of, Subject} from "rxjs";
-import {select, Store} from "@ngrx/store";
-import {CalendarState, getVacationForMonth, hasModifiedDays} from "../model/store/calendar.store";
-import {concatMap, map, mergeMap} from "rxjs/operators";
+import {Component, OnInit} from '@angular/core';
+import {VacationType} from '../model/dto';
+import {BehaviorSubject, Observable} from "rxjs";
+import {map} from "rxjs/operators";
 import * as _ from "lodash";
-import {AppState} from "../model/store/app.state";
-import {ElectronService} from "../core/services";
-import {saveVacation} from "../model/actions/calendar.actions";
+import {Store} from "@ngxs/store";
+import {LoadVacation, SaveVacation} from "../model/actions/calendar.actions";
+import {CalendarState} from "../model/store/calendar.state";
+import {LoginState, LoginStateModel} from "../model/store/login.state";
 
 export class CalendarDay {
   date: Date;
@@ -28,37 +26,42 @@ export class CalendarComponent implements OnInit {
 
   vacationTypeValues = VacationType;
 
-  constructor(private store: Store<AppState>) { }
+  constructor(private store: Store) { }
 
   ngOnInit(): void {
     const currentDate = new Date();
+
+    const userId = this.store.selectSnapshot<number>(state => state.loginState.connectedUser.id );
+    this.store.dispatch(new LoadVacation(true, userId, currentDate));
     this.selectedMonthSubject = new BehaviorSubject<{month: number, year: number}>({month: currentDate.getMonth(), year: currentDate.getFullYear()});
     this.selectedMonthSubject.asObservable().subscribe(monthObj => {
-      this.days$ = this.store.pipe(
-        select(getVacationForMonth, {month: monthObj.month, year: monthObj.year}),
-        map(vacations => {
-          let tmpDays : CalendarDay[] = [];
-          this.fillWithPreviousMonth(monthObj.month, monthObj.year, tmpDays);
-          const nbDay = new Date(monthObj.month, monthObj.year, 0).getDate();
-          for(let day = 1; day <= nbDay; day++) {
-            let dayObj = new CalendarDay();
-            dayObj.date = new Date(monthObj.year, monthObj.month, day);
-            const dayOfWeek = dayObj.date.getDay();
-            dayObj.isWorked = dayOfWeek != 6 && dayOfWeek != 0;
-            tmpDays.push(dayObj);
-          }
-          vacations.forEach(vacation => {
-            let day = {..._.first(_.remove(tmpDays, day => day.date.getDate() === vacation.date.getDate()))};
-            day.pm = vacation.pm.type;
-            day.am = vacation.am.type;
-            tmpDays.push(day);
-          });
-          return tmpDays;
-        }),
-        map(days => _.sortBy(days, ['date']))
-      );
+      this.days$ = this.store.select(CalendarState.getVacationForMonth(monthObj.month, monthObj.year))
+        .pipe(
+          map(vacations => {
+            let tmpDays: CalendarDay[] = [];
+            this.fillWithPreviousMonth(monthObj.month, monthObj.year, tmpDays);
+            const nbDay = new Date(monthObj.month, monthObj.year, 0).getDate();
+            for (let day = 1; day <= nbDay; day++) {
+              let dayObj = new CalendarDay();
+              dayObj.date = new Date(monthObj.year, monthObj.month, day);
+              const dayOfWeek = dayObj.date.getDay();
+              dayObj.isWorked = dayOfWeek != 6 && dayOfWeek != 0;
+              tmpDays.push(dayObj);
+            }
+            if(vacations) {
+              vacations.forEach(vacation => {
+                let day = {..._.first(_.remove(tmpDays, day => day.date.getDate() === vacation.date.getDate()))};
+                day.pm = vacation.pm.type;
+                day.am = vacation.am.type;
+                tmpDays.push(day);
+              });
+            }
+            return tmpDays;
+          }),
+          map(days => _.sortBy(days, ['date']))
+        );
     });
-    this.modifiedDays$ = this.store.pipe(select(hasModifiedDays));
+    this.modifiedDays$ = this.store.select(CalendarState.hasModifiedDays);
   }
 
   private fillWithPreviousMonth(month: number, year: number, tmpDays: CalendarDay[]) {
@@ -106,7 +109,7 @@ export class CalendarComponent implements OnInit {
   }
 
   save(){
-    this.store.dispatch(saveVacation())
+    this.store.dispatch(new SaveVacation());
     // if(this.electronService.isElectron) {
     //   shell.openExternal("mailto:toto.toto@toto.com?subject=sub&body=<h1>texte</h1><p>tutu body</p>&cc=titi@titi.com");
     // }

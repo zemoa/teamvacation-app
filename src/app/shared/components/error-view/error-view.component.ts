@@ -1,11 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {TVError} from "../../../model/TVError";
-import {select, Store} from "@ngrx/store";
-import {AppState} from "../../../model/store/app.state";
-import {getLastError} from "../../../model/store/error.store";
 import {BehaviorSubject, Observable} from "rxjs";
 import * as _ from "lodash";
-import {removeLastError} from "../../../model/actions/error.actions";
+import {Store} from "@ngxs/store";
+import {RemoveLastError} from "../../../model/actions/error.actions";
 
 @Component({
   selector: 'app-error-view',
@@ -15,16 +13,14 @@ import {removeLastError} from "../../../model/actions/error.actions";
 export class ErrorViewComponent implements OnInit {
   errorsSubject: BehaviorSubject<TVError[]>;
   errors$: Observable<TVError[]>;
-  constructor(private store: Store<AppState> ) {
+  constructor(private store: Store ) {
     this.errorsSubject = new BehaviorSubject<TVError[]>([])
     this.errors$ = this.errorsSubject.asObservable();
-    this.store.pipe(
-      select(getLastError)
-    ).subscribe(
+    this.store.select(state => state.errorState.lastError).subscribe(
       lastError => {
         if(lastError) {
           this.errorsSubject.next([...this.errorsSubject.value, lastError])
-          this.store.dispatch(removeLastError());
+          this.store.dispatch(new RemoveLastError());
         }
       }
     )
