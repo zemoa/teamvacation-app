@@ -9,6 +9,16 @@ export const addVacation = createAction(
 export const removeVacation = createAction(
   '[Calendar Action] Remove',
   props<{aDate: Date, aType: VacationType, partOfDay: VacationDay}>());
-export const reloadVacation = createAction('[Calendar Action] Reload');
+export const loadVacation = createAction(
+  '[Calendar Action] Load',
+  props<{reload:boolean, userId: number, month: Date}>()
+  );
+export const vacationLoaded = createAction(
+  '[Calendar Action] loaded',
+    props<{reload: boolean, vacations: Day[]}>()
+  );
 export const saveVacation = createAction('[Calendar Action] Save');
-
+export const vacationSaved = createAction(
+  '[Calendar Action] Saved',
+  props<{vacations: Day[]}>()
+);

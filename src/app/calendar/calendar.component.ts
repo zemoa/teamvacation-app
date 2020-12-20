@@ -3,10 +3,12 @@ import { Day } from '../model/day';
 import { VacationType } from '../model/dto';
 import {BehaviorSubject, combineLatest, concat, forkJoin, merge, Observable, of, Subject} from "rxjs";
 import {select, Store} from "@ngrx/store";
-import {CalendarState, getVacationForMonth} from "../model/store/calendar.store";
+import {CalendarState, getVacationForMonth, hasModifiedDays} from "../model/store/calendar.store";
 import {concatMap, map, mergeMap} from "rxjs/operators";
 import * as _ from "lodash";
 import {AppState} from "../model/store/app.state";
+import {ElectronService} from "../core/services";
+import {saveVacation} from "../model/actions/calendar.actions";
 
 export class CalendarDay {
   date: Date;
@@ -21,6 +23,7 @@ export class CalendarDay {
 })
 export class CalendarComponent implements OnInit {
   days$: Observable<CalendarDay[]>;
+  modifiedDays$: Observable<boolean>;
   private selectedMonthSubject : BehaviorSubject<{month: number, year: number}>;
 
   vacationTypeValues = VacationType;
@@ -30,7 +33,6 @@ export class CalendarComponent implements OnInit {
   ngOnInit(): void {
     const currentDate = new Date();
     this.selectedMonthSubject = new BehaviorSubject<{month: number, year: number}>({month: currentDate.getMonth(), year: currentDate.getFullYear()});
-
     this.selectedMonthSubject.asObservable().subscribe(monthObj => {
       this.days$ = this.store.pipe(
         select(getVacationForMonth, {month: monthObj.month, year: monthObj.year}),
@@ -56,6 +58,7 @@ export class CalendarComponent implements OnInit {
         map(days => _.sortBy(days, ['date']))
       );
     });
+    this.modifiedDays$ = this.store.pipe(select(hasModifiedDays));
   }
 
   private fillWithPreviousMonth(month: number, year: number, tmpDays: CalendarDay[]) {
@@ -100,5 +103,12 @@ export class CalendarComponent implements OnInit {
       monthObj.month++;
     }
     this.selectedMonthSubject.next(monthObj);
+  }
+
+  save(){
+    this.store.dispatch(saveVacation())
+    // if(this.electronService.isElectron) {
+    //   shell.openExternal("mailto:toto.toto@toto.com?subject=sub&body=<h1>texte</h1><p>tutu body</p>&cc=titi@titi.com");
+    // }
   }
 }

@@ -3,6 +3,7 @@ import {delay, scan, switchMap, takeWhile} from "rxjs/operators";
 import {TypedAction} from "@ngrx/store/src/models";
 import * as ErrorAction from "../../model/actions/error.actions";
 import {EnumErrorFunc, EnumErrorMessage} from "../../model/TVError";
+import * as moment from "moment";
 
 export function retryHttp(errors: Observable<any>): Observable<any> {
   return errors.pipe(
@@ -20,7 +21,7 @@ export function retryHttp(errors: Observable<any>): Observable<any> {
 
 export function formatDateForWs(date: Date): string {
   if(date) {
-    return `${date.getFullYear()+date.getMonth()+date.getDate()}`
+    return moment(date).format(Constants.DATE_FORMAT_WS);
   } else {
     return "";
   }
@@ -34,5 +35,5 @@ export function manageWsErrors<T>(errorFunc: EnumErrorFunc, err: any): Observabl
 }
 
 export class Constants {
-  readonly DATE_FORMAT_WS = "yyyyMMdd";
+  static readonly DATE_FORMAT_WS = "YYYYMMDD";
 }

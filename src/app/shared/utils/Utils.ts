@@ -3,7 +3,7 @@ export default class Utils {
     if(list){
       const index = list.findIndex(predicate);
       if(index > -1) {
-        list = list.splice(index, 1, value);
+        list.splice(index, 1, value);
       } else {
         list.push(value);
       }
@@ -20,6 +20,20 @@ export default class Utils {
         foundValue = modifToAppli(foundValue);
         result = [...list];
         result.splice(index, 1, foundValue);
+      }
+    } else {
+      result = list;
+      console.warn("list is null");
+    }
+    return result;
+  }
+
+  static removeFromList<T>(list: T[], predicate: (value: T) => boolean): T[] {
+    let result: T[];
+    if(list) {
+      const index = list.findIndex(predicate);
+      if(index > -1) {
+        [...list].splice(index, 1);
       }
     } else {
       result = list;

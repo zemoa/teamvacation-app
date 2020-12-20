@@ -15,10 +15,11 @@ import {VacationtypeComponent} from './components/vacationtype/vacationtype.comp
 import {ConfirmdialogComponent} from './components/confirmdialog/confirmdialog.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import {ErrorViewComponent} from './components/error-view/error-view.component';
+import { ElevationDirective } from './directives/elevation.directive';
 
 @NgModule({
-  declarations: [PageNotFoundComponent, WebviewDirective, NavbarComponent, VacationtypeComponent, ConfirmdialogComponent, ErrorViewComponent],
+  declarations: [PageNotFoundComponent, WebviewDirective, NavbarComponent, VacationtypeComponent, ConfirmdialogComponent, ErrorViewComponent, ElevationDirective],
   imports: [CommonModule, TranslateModule, FormsModule, MatToolbarModule, MatIconModule, MatMenuModule, MatButtonModule, MatDialogModule],
-  exports: [TranslateModule, WebviewDirective, FormsModule, NavbarComponent, RouterModule, VacationtypeComponent, ErrorViewComponent]
+  exports: [TranslateModule, WebviewDirective, FormsModule, NavbarComponent, RouterModule, VacationtypeComponent, ErrorViewComponent, ElevationDirective]
 })
 export class SharedModule {}

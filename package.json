@@ -102,6 +102,7 @@
     "@ngrx/store": "10.1.0",
     "jwt-decode": "2.2.0",
     "lodash": "4.17.19",
+    "moment": "2.29.1",
     "roboto-fontface": "0.10.0"
   }
 }

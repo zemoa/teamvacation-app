@@ -1,10 +1,19 @@
 import {HttpClient, HttpParams} from "@angular/common/http";
-import { Injectable } from "@angular/core";
-import {AskResultDto, VacationDto, VacationSummary, ValidateVacDto} from "../../../model/dto";
+import {Injectable} from "@angular/core";
+import {
+  AskResultDto,
+  VacationDay,
+  VacationDto,
+  VacationSummary,
+  VacationType,
+  ValidateVacDto
+} from "../../../model/dto";
 import {EMPTY, Observable} from 'rxjs';
 import {AppConfig} from "../../../../environments/environment";
-import {formatDateForWs, retryHttp} from "../../../shared/helpers/utils.helper";
+import {Constants, formatDateForWs, retryHttp} from "../../../shared/helpers/utils.helper";
 import {mergeMap, retryWhen} from "rxjs/operators";
+import {Day} from "../../../model/day";
+import * as moment from "moment";
 
 @Injectable({
     providedIn: 'root'
@@ -43,4 +52,46 @@ export class VacationService {
     return this.http.get<VacationSummary>(`${VacationService.VACATION_URL}/${id}/compute`, { params: params })
       .pipe(retryWhen(retryHttp));
   }
+
+  convertVacationDtoToDay(dto: VacationDto): Day {
+    const day = new Day();
+    day.date = moment(dto.date, Constants.DATE_FORMAT_WS).toDate();
+    if(dto.vacationDay == VacationDay.ALL || dto.vacationDay == VacationDay.MORNING) {
+      day.am.id = dto.id;
+      day.am.type = dto.type;
+      day.am.validated = dto.validated;
+    }
+
+    if(dto.vacationDay == VacationDay.ALL || dto.vacationDay == VacationDay.AFTERNOON) {
+      day.pm.id = dto.id;
+      day.pm.type = dto.type;
+      day.pm.validated = dto.validated;
+    }
+    return day;
+  }
+
+  convertDayToVacationDto(day: Day): VacationDto[] {
+    const vacationDtoList: VacationDto[] = [];
+    const dateStr = moment(day.date).format(Constants.DATE_FORMAT_WS);
+    if(day.am.type && day.am.type !== VacationType.UNKNOWN) {
+      vacationDtoList.push({
+        validated: false,
+        type: day.am.type,
+        id: -1,
+        date: dateStr,
+        vacationDay: VacationDay.MORNING
+      })
+    }
+    if(day.pm.type && day.pm.type !== VacationType.UNKNOWN) {
+      vacationDtoList.push({
+        validated: false,
+        type: day.pm.type,
+        id: -1,
+        date: dateStr,
+        vacationDay: VacationDay.AFTERNOON
+      })
+    }
+    return vacationDtoList;
+  }
+
 }

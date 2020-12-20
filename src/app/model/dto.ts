@@ -1,20 +1,21 @@
 export enum VacationType{
-    UNKNOWN,
-    Standard,
-    RTT,
+    UNKNOWN="UNKNOWN",
+    Standard="Standard",
+    RTT="RTT",
 }
 
 export enum VacationDay{
-    UNKNOWN,
-    ALL,
-    MORNING,
-    AFTERNOON,
+    UNKNOWN="UNKNOWN",
+    ALL="ALL",
+    MORNING="MORNING",
+    AFTERNOON="AFTERNOON",
 }
 
 export class VacationDto {
     id: number;
-    date: Date;
-    vacationType?: VacationType;
+    date: string;
+    validated: boolean;
+    type?: VacationType;
     vacationDay: VacationDay;
 }
 
@@ -49,3 +50,5 @@ export enum EnumValideur {
   PRINCIPAL = "PRINCIPAL",
   SECONDARY = "SECONDARY"
 }
+
+export class Empty {}

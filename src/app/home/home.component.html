@@ -5,6 +5,10 @@
     {{ 'PAGES.HOME.TITLE' | translate }}
   </h1>
 
-  <a routerLink="/detail">{{ 'PAGES.HOME.GO_TO_DETAIL' | translate }}</a> 
-  <a routerLink="/login">{{ 'PAGES.HOME.GO_TO_LOGIN' | translate }}</a>
+  <div class="card-container">
+    <button appElevation [raisedElevation]="24" mat-flat-button color="primary">
+      <div>{{ 'home.calendar' | translate }}</div>
+      <mat-icon>calendar_today</mat-icon>
+    </button>
+  </div>
 </div>

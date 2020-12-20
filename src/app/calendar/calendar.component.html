@@ -9,11 +9,12 @@
         <mat-icon inline="true">navigate_next</mat-icon>
     </button>
 </app-navbar>
-<section>
+<section style="display: flex; justify-content: space-between;">
     <mat-button-toggle-group #group="matButtonToggleGroup" [value]="vacationTypeValues.Standard">
         <mat-button-toggle [value]="vacationTypeValues.Standard">{{ 'vacation.standard' | translate }}</mat-button-toggle>
         <mat-button-toggle [value]="vacationTypeValues.RTT">{{ 'vacation.rtt' | translate }}</mat-button-toggle>
     </mat-button-toggle-group>
+    <button mat-raised-button color="primary" *ngIf="modifiedDays$ | async" (click)="save()">Save</button>
 </section>
 <mat-divider></mat-divider>
 <section>

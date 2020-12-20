@@ -41,6 +41,7 @@ import {TokenInterceptor} from "./shared/helpers/token-interceptor.service";
 import {HttpErrorInterceptor} from "./shared/helpers/http-error-interceptor.service";
 import {SettingsModule} from "./settings/settings.module";
 import {AdminModule} from "./admin/admin.module";
+import {CalendarEffect} from "./model/effects/calendar.effect";
 
 
 // AoT requires an exported function for factories
@@ -80,7 +81,7 @@ export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
       userState: userStore.reducer,
       loginState: loginStore.reducer,
       errorState: errorStore.reducer}, {}),
-    EffectsModule.forRoot([UserEffect, LoginEffect]),
+    EffectsModule.forRoot([UserEffect, LoginEffect, CalendarEffect]),
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi:true},
