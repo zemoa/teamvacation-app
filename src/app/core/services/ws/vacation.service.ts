@@ -42,7 +42,9 @@ export class VacationService {
   delete(id: number, vacationDtoToDelete: VacationDto[]): Observable<never> {
     const params = new HttpParams();
     params.set("vacationIdToDelete", vacationDtoToDelete.map(value => value.id).toString())
-    return this.http.delete(`${VacationService.VACATION_URL}/${id}/deleteById`, null,{ params: params })
+    return this.http.delete(`${VacationService.VACATION_URL}/${id}/deleteById`, {
+      params: params
+    })
       .pipe(retryWhen(retryHttp), mergeMap(_ => EMPTY));
   }
 
