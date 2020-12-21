@@ -4,7 +4,7 @@
       {
         "label": "Build.All",
         "type": "shell",
-        "command": "npm run ng:serve:web",
+        "command": "npm run electron:serve-tsc && ng serve",
         "isBackground": true,
         "group": {
           "kind": "build",
