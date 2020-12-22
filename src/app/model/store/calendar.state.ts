@@ -3,7 +3,6 @@ import {Injectable} from "@angular/core";
 import {Action, createSelector, Selector, State, StateContext, Store} from "@ngxs/store";
 import {AddVacation, LoadVacation, RemoveVacation, SaveVacation} from "../actions/calendar.actions";
 import {AskResultDto, VacationDay, VacationDto, VacationType} from "../dto";
-import * as _ from "lodash";
 import {VacationService} from "../../core/services/ws/vacation.service";
 import Utils from "../../shared/utils/Utils";
 import {manageWsErrors} from "../../shared/helpers/utils.helper";
@@ -19,7 +18,7 @@ export const initialState: CalendarStateModel = {
   vacations: [],
   modifiedDays: [],
   saving: false,
-}
+};
 
 @State<CalendarStateModel>({
   name: "calendarState",
@@ -147,7 +146,7 @@ export class CalendarState {
                   modified: false,
                   validated: false
                 }
-              }
+              };
             }
             if(!modifiedDay.pm.type || modifiedDay.pm.type === VacationType.UNKNOWN) {
               vacationToModify = {
@@ -158,7 +157,7 @@ export class CalendarState {
                   modified: false,
                   validated: false
                 }
-              }
+              };
             }
           }
         }
@@ -181,7 +180,7 @@ export class CalendarState {
       ctx.patchState({
         saving: false,
         modifiedDays: []
-      })
+      });
     }
   }
 
@@ -189,8 +188,8 @@ export class CalendarState {
     const state = ctx.getState();
     let modifiedDays = [...state.modifiedDays];
     let updatedDay: Day;
-    let foundDay = _.first(_.remove(modifiedDays, {date: aDate}));
-    if (!foundDay) {
+    let foundDay = Utils.removeFromListAndPop(modifiedDays, value => value.date.getTime() === aDate.getTime());
+    if (!foundDay ) {
       foundDay = state.vacations.find(value => value.date.getTime() === aDate.getTime());
     }
     if (!foundDay) {
@@ -222,10 +221,10 @@ export class CalendarState {
         type: aType,
         modified: modified,
         validated: false
-      }
+      };
     }
     let vacations = [...state.vacations];
-    _.remove(vacations, value => value.date === updatedDay.date);
+    Utils.removeFromListAndPop(vacations, value => value.date === updatedDay.date);
     if (updatedDay.am.modified || updatedDay.pm.modified) {
       console.log("Add modification");
       modifiedDays = modifiedDays.concat(updatedDay);

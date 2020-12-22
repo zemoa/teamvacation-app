@@ -41,4 +41,15 @@ export default class Utils {
     }
     return result;
   }
+
+  static removeFromListAndPop<T>(list: T[], predicate: (value: T) => boolean): T {
+    let result: T;
+    if(list) {
+      const index = list.findIndex(predicate);
+      if(index > -1) {
+        result = list.splice(index, 1)[0];
+      }
+    }
+    return result;
+  }
 }

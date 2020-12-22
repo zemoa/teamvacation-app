@@ -1,4 +1,4 @@
-import {HttpClient, HttpParams} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {Injectable} from "@angular/core";
 import {
   AskResultDto,
@@ -16,8 +16,8 @@ import {Day} from "../../../model/day";
 import * as moment from "moment";
 
 @Injectable({
-    providedIn: 'root'
-  })
+  providedIn: 'root'
+})
 export class VacationService {
   private static VACATION_URL = `${AppConfig.API_URL}/vacation`;
   constructor(private http: HttpClient){}
@@ -25,8 +25,8 @@ export class VacationService {
   getVacationList(id: number, start: Date, end: Date) : Observable<VacationDto[]>{
     const params = new HttpParams();
     params.set("start", formatDateForWs(start));
-    params.set("end", formatDateForWs(end))
-      return this.http.get<VacationDto[]>(`${VacationService.VACATION_URL}/${id}/period`, { params: params });
+    params.set("end", formatDateForWs(end));
+    return this.http.get<VacationDto[]>(`${VacationService.VACATION_URL}/${id}/period`, { params: params });
   }
 
   validate(id: number, vacationList: VacationDto[]): Observable<ValidateVacDto> {
@@ -40,17 +40,14 @@ export class VacationService {
   }
 
   delete(id: number, vacationDtoToDelete: VacationDto[]): Observable<never> {
-    const params = new HttpParams();
-    params.set("vacationIdToDelete", vacationDtoToDelete.map(value => value.id).toString())
-    return this.http.delete(`${VacationService.VACATION_URL}/${id}/deleteById`, {
-      params: params
-    })
+    const vacationIdToDelete = vacationDtoToDelete.map(value => value.id).toString();
+    return this.http.delete(`${VacationService.VACATION_URL}/${id}/deleteById/${vacationIdToDelete}`)
       .pipe(retryWhen(retryHttp), mergeMap(_ => EMPTY));
   }
 
   compute(id: number, dateYear: Date): Observable<VacationSummary> {
     const params = new HttpParams();
-    params.set("date", formatDateForWs(dateYear))
+    params.set("date", formatDateForWs(dateYear));
     return this.http.get<VacationSummary>(`${VacationService.VACATION_URL}/${id}/compute`, { params: params })
       .pipe(retryWhen(retryHttp));
   }
@@ -82,7 +79,7 @@ export class VacationService {
         id: -1,
         date: dateStr,
         vacationDay: VacationDay.MORNING
-      })
+      });
     } else if (day.am.id > -1) {
       vacationDtoList.push({
         validated: false,
@@ -99,7 +96,7 @@ export class VacationService {
         id: -1,
         date: dateStr,
         vacationDay: VacationDay.AFTERNOON
-      })
+      });
     } else if (day.pm.id > -1) {
       vacationDtoList.push({
         validated: false,
