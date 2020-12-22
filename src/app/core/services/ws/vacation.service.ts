@@ -72,39 +72,43 @@ export class VacationService {
   convertDayToVacationDto(day: Day): VacationDto[] {
     const vacationDtoList: VacationDto[] = [];
     const dateStr = moment(day.date).format(Constants.DATE_FORMAT_WS);
-    if(day.am.type && day.am.type !== VacationType.UNKNOWN) {
-      vacationDtoList.push({
-        validated: false,
-        type: day.am.type,
-        id: -1,
-        date: dateStr,
-        vacationDay: VacationDay.MORNING
-      });
-    } else if (day.am.id > -1) {
-      vacationDtoList.push({
-        validated: false,
-        type: VacationType.UNKNOWN,
-        id: day.am.id,
-        date: dateStr,
-        vacationDay: VacationDay.MORNING
-      });
+    if(day.am.modified) {
+      if (day.am.type && day.am.type !== VacationType.UNKNOWN) {
+        vacationDtoList.push({
+          validated: false,
+          type: day.am.type,
+          id: -1,
+          date: dateStr,
+          vacationDay: VacationDay.MORNING
+        });
+      } else if (day.am.id > -1) {
+        vacationDtoList.push({
+          validated: false,
+          type: VacationType.UNKNOWN,
+          id: day.am.id,
+          date: dateStr,
+          vacationDay: VacationDay.MORNING
+        });
+      }
     }
-    if(day.pm.type && day.pm.type !== VacationType.UNKNOWN) {
-      vacationDtoList.push({
-        validated: false,
-        type: day.pm.type,
-        id: -1,
-        date: dateStr,
-        vacationDay: VacationDay.AFTERNOON
-      });
-    } else if (day.pm.id > -1) {
-      vacationDtoList.push({
-        validated: false,
-        type: VacationType.UNKNOWN,
-        id: day.pm.id,
-        date: dateStr,
-        vacationDay: VacationDay.AFTERNOON
-      });
+    if(day.pm.modified) {
+      if (day.pm.type && day.pm.type !== VacationType.UNKNOWN) {
+        vacationDtoList.push({
+          validated: false,
+          type: day.pm.type,
+          id: -1,
+          date: dateStr,
+          vacationDay: VacationDay.AFTERNOON
+        });
+      } else if (day.pm.id > -1) {
+        vacationDtoList.push({
+          validated: false,
+          type: VacationType.UNKNOWN,
+          id: day.pm.id,
+          date: dateStr,
+          vacationDay: VacationDay.AFTERNOON
+        });
+      }
     }
     return vacationDtoList;
   }

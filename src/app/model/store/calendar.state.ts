@@ -44,18 +44,18 @@ export class CalendarState {
     const end = new Date(action.month.getFullYear(), action.month.getMonth() + 1, 0);
     try {
       const vacationList = await this.vacationService.getVacationList(action.userId, start, end).toPromise();
-      const dayList= new Map<Date, Day>();
+      const dayList= new Map<string, Day>();
       vacationList.forEach(vacationDto => {
         const day = this.vacationService.convertVacationDtoToDay(vacationDto);
-        if(dayList.has(day.date)) {
+        if(dayList.has(vacationDto.date)) {
           if(day.am.type && day.am.type != VacationType.UNKNOWN){
-            dayList.get(day.date).am = day.am;
+            dayList.get(vacationDto.date).am = day.am;
           }
           if(day.pm.type && day.pm.type != VacationType.UNKNOWN){
-            dayList.get(day.date).pm = day.pm;
+            dayList.get(vacationDto.date).pm = day.pm;
           }
         } else {
-          dayList.set(day.date, day);
+          dayList.set(vacationDto.date, day);
         }
       });
       const convertedVacation = Array.from(dayList.values());
@@ -117,20 +117,15 @@ export class CalendarState {
     }
     if(askResultDto) {
       console.log(askResultDto);
-      const days = new Map<Date, Day>();
+      let vacationList = [...ctx.getState().vacations];
       askResultDto.vacationList.forEach(vacation => {
-        const date = new Date(vacation.date);
         const convertedDay = this.vacationService.convertVacationDtoToDay(vacation);
-        if(vacation.vacationDay === VacationDay.ALL || !days.has(date)) {
-          days.set(convertedDay.date, convertedDay);
-        } else if(vacation.vacationDay === VacationDay.MORNING) {
-          days.get(date).am = convertedDay.am;
-        } else if(vacation.vacationDay === VacationDay.AFTERNOON) {
-          days.get(date).pm = convertedDay.pm;
+        const foundDay = modifiedDays.find(modifiedDay => modifiedDay.date.getTime() === convertedDay.date.getTime());
+        if(foundDay) {
+          foundDay.am.id = convertedDay.am.id;
+          foundDay.pm.id = convertedDay.pm.id;
         }
       });
-      const convertedSavedVacationList = Array.from(days.values());
-      let vacationList = [...ctx.getState().vacations];
       modifiedDays.forEach(modifiedDay => {
         //First remove
         if(!modifiedDay.am.type || modifiedDay.am.type === VacationType.UNKNOWN ||
@@ -162,7 +157,7 @@ export class CalendarState {
           }
         }
       });
-      convertedSavedVacationList.forEach(dayToAdd => {
+      modifiedDays.forEach(dayToAdd => {
         if(vacationList.some(value => value.date.getTime() === dayToAdd.date.getTime())) {
           vacationList = Utils.insertIntoList(dayToAdd, vacationList, day => day.date.getTime() === dayToAdd.date.getTime());
         } else {
@@ -228,9 +223,7 @@ export class CalendarState {
     if (updatedDay.am.modified || updatedDay.pm.modified) {
       console.log("Add modification");
       modifiedDays = modifiedDays.concat(updatedDay);
-      if (added) {
-        vacations = vacations.concat(updatedDay);
-      }
+      vacations = vacations.concat(updatedDay);
     } else {
       console.log("Remove modification");
     }
