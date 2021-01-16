@@ -34,7 +34,7 @@
       ],
       "rules": {
         "@typescript-eslint/indent": [
-          "error", 2, {
+          "error", 4, {
             "SwitchCase": 1,
             "CallExpression": {"arguments": "first"},
             "FunctionExpression": {"parameters": "first"},
